@@ -29,7 +29,13 @@ Open database.php in app/config/database.php then change according to your datab
 ?>
 ```
 
-4. Finish
+4. Composer
+
+```
+	composer dump-autoload
+```
+
+5. Finish
 
 Ready to use
 
