@@ -35,6 +35,7 @@ Open database.php in app/config/database.php then change according to your datab
 	composer dump-autoload
 ```
 
+
 5. Finish
 
 Ready to use
