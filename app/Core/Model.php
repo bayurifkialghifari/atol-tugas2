@@ -20,8 +20,8 @@
 
 		public function store($tabel,$data)
 		{
-			$r1 = array();
-			$f1 = array();
+			$r1 	= array();
+			$f1 	= array();
 
 			foreach($data as $f2=>$r2)
 			{

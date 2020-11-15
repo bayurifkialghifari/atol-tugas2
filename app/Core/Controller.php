@@ -13,7 +13,7 @@
 			// Array key to new variable
 			extract($data, EXTR_PREFIX_SAME, "wddx");
 
-			$data 				= [];
+			$data 					= [];
 
 			require_once '../app/Views/' . $view . '.php';
 		}

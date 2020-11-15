@@ -18,7 +18,7 @@
 		*
 		*/
 
-		public function group($data = ['url' => '/', 'namespace' => 'App\Controllers'], $control = '\Home', $method = 'index')
+		public function group($data = ['url' => '/', 'namespace' => 'App\Controllers'], $control = 'Home', $method = 'index')
 		{
 			$url 						= (isset($_GET['url'])) ? $_GET['url'] : '/';
 
@@ -29,10 +29,16 @@
 			*
 			*
 			*/
-				
+
 			$this->url 					= $data['url'];
 			$this->namespace 			= (isset($data['namespace'])) ? $data['namespace'] : $this->namespace;
 			$this->controller 			= ucfirst($control);
+			
+			// Cek string \
+			if(stristr($this->controller, '\\') === false)
+			{
+				$this->controller 		= "\\$this->controller";
+			}
 
 
 
@@ -43,7 +49,6 @@
 				$this->namespace 		= ($this->namespace !== null) ? $this->namespace : '';
 				$this->controller 		= $this->namespace . $this->controller;
 				
-				
 				// Cek keadaan class
 				if(class_exists($this->controller))
 				{
@@ -52,7 +57,7 @@
 					// Cek keadaan method
 					if(method_exists($this->controller, $method))
 					{
-						$this->method = $method;
+						$this->method 	= $method;
 					}
 
 					/*

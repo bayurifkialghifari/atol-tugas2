@@ -10,6 +10,11 @@
 		echo "<script>window.location = '".$_SERVER['HTTP_REFERER'] . "'</script>";
 	}
 
+	function base_url()
+	{
+		return base_url;
+	}
+
 	function generateFont($length = 20) 
 	{
 	    $str 		= "";

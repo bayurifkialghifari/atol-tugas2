@@ -5,4 +5,4 @@
 	$app 		= new Route;
 
 	// Router
-	$app->group(['url' => '/'], '\Home', 'hoem');
+	$app->group(['url' => '/'], 'Home', 'index');
