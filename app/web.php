@@ -4,11 +4,16 @@
 
 	$app 			= new Route;
 
-	// $app->add('Alamat web', 'Class yang ada dicontroller', 'method class', 'method request');
+	/** 
+	* 	@var
+	*  
+	*	$app->add( 'Alamat web', 
+	*				'Class yang ada dicontroller contoh `Ggwp\Anjay` or `Anjay`', 
+	*				'Method class `index`', 
+	* 				'Method request `post, get, put, delete`');
+	*/
 
 	// Router
-	$app->add('/qweqwe', 'Home', 'test');
-
-	$app->add('/anjay', 'Home', 'index');
+	$app->add('/', 'Home');
 
 	$app->run('/');

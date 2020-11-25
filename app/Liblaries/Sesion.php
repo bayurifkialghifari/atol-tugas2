@@ -10,7 +10,7 @@
 			{
 				if($_SESSION['status'] == true)
 				{
-					redirect(site_url . 'dashboard');			
+					redirect(base_url . 'dashboard');			
 				}
 			}
 		}
@@ -21,12 +21,12 @@
 			{
 				if($_SESSION['status'] != true)
 				{
-					redirect(site_url . 'login');			
+					redirect(base_url . 'login');			
 				}
 			}
 			else
 			{
-				redirect(site_url . 'login');			
-			}	
+				redirect(base_url . 'login');			
+			}
 		}
 	}

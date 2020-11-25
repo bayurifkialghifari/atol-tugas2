@@ -4,20 +4,19 @@
 	
 	Class Model
 	{
-		protected $db;
-
-		function __construct()
+		/** 
+		* Connect to database
+		*
+		*/
+		public static function connect()
 		{
-			$this->db 	= mysqli_connect(
-											db_host,
-											db_user,
-											db_pass,
-											db_name
-										);
-
-			return $this->db;
+			return mysqli_connect(db_host, db_user, db_pass, db_name);
 		}
 
+		/** 
+		* Store data to database
+		*
+		*/
 		public function store($tabel,$data)
 		{
 			$r1 	= array();
@@ -32,11 +31,15 @@
 			$field 	= implode(',',$f1);
 			$row 	= implode(',',$r1);
 
-			$query 	= $this->db->query("INSERT INTO {$tabel}({$field}) VALUES ({$row})");
+			$query 	= self::connect()->query("INSERT INTO {$tabel}({$field}) VALUES ({$row})");
 
 			return $query;
 		}
 	
+		/** 
+		* Update data to database
+		*
+		*/
 		public function update($tabel_id,$tabel,$data)
 		{
 			$r1 	= array();
@@ -52,25 +55,33 @@
 
 			$row 	= implode(',',$r1);
 
-			$query 	= $this->db->query("UPDATE {$tabel} SET {$row} WHERE {$key}='{$id}'");
+			$query 	= self::connect()->query("UPDATE {$tabel} SET {$row} WHERE {$key}='{$id}'");
 
 			return $query;
 		}
 
+		/** 
+		* Delete data to database
+		*
+		*/
 		public function delete($tabel_id,$table)
 		{
 			$key 	= array_keys($tabel_id);
 			$key 	= $key[0];
 			$id 	= $tabel_id[$key];
 
-			$query 	= $this->db->query("DELETE FROM {$table} WHERE {$key}='{$id}'");
+			$query 	= self::connect()->query("DELETE FROM {$table} WHERE {$key}='{$id}'");
 
 			return $query;		
 		}
 
+		/** 
+		* Get insert id
+		*
+		*/
 		public function insert_id()
 		{
-			$query 	= $this->db->insert_id;
+			$query 	= self::connect()->insert_id;
 
 			return $query;
 		}

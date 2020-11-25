@@ -6,22 +6,19 @@
 
 	Class Home extends Controller
 	{
-
 		public function index()
 		{
-			// parent::view() untuk load view
-			// post('nama')
-			// sess(nama)
-			// get('nama')
-			// set_session(array)
+			// view() untuk load view
+			// parent::post('nama')
+			// parent::all()
+			// parent::post_all()
+			// parent::get_all()
+			// parent::get('nama')
+			// parent::sess(nama)
+			// parent::set_session(array)
 
-			$data['app_name'] = 'Contoh';
+			$data['app_name'] = 'Welcome';
 
-			parent::view('home', $data);
-		}
-
-		public function test()
-		{
-			var_dump('asdasd');
+			view('home', $data);
 		}
 	}

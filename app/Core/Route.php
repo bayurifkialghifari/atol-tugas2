@@ -4,15 +4,14 @@
 
     class Route
     {
-
-        private static $routes                  = Array();
+        private static $routes                  = array();
         private static $namespace               = 'App\Controllers';
         private static $pathNotFound            = null;
         private static $methodNotAllowed        = null;
 
         public static function add($expression, $function, $method_function = 'index', $method = 'get')
         {
-            array_push(self::$routes, Array(
+            array_push(self::$routes, array(
                 'expression'                    => $expression,
                 'function'                      => $function,
                 'method_function'               => $method_function,

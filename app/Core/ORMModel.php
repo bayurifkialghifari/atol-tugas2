@@ -4,60 +4,97 @@
 
 	Class ORMModel
 	{
-		protected $db;
-		protected $id 			= 'id';
-		protected $table 		= '';
-		protected $fillable 	= [];
-		protected $query 		= '';
+		protected static $table = '';
 
-		function __construct()
-		{
-			$this->table 	= ($this->table === '') ? self::getChildName() : $this->table;
+		/** 
+        * Connect to database
+        *
+        */
+        public static function connect()
+        {
+            return mysqli_connect(db_host, db_user, db_pass, db_name);
+        }
 
-			$this->db 		= mysqli_connect(
-											db_host,
-											db_user,
-											db_pass,
-											db_name
-										);
-
-			return $this->db;
-		}
-
+        /** 
+        * Get name table database
+        *
+        */
 		public static function getChildName() 
 		{
-        	return get_called_class();
+        	self::$table   = get_called_class();
     	}
 
+        /** 
+        * Get all data from database
+        *
+        */
     	public function all()
     	{
-    		$sql 			= " SELECT * FROM {$this->table}";
-    		$this->query 	= $sql;
+    		$sql 			= " SELECT * FROM " . self::$table;
 
-    		$exe 			= $this->db->query($this->query);
+    		$exe 			= self::connect()->query($sql);
 
     		return $exe;
     	}
 
-    	public function find($where = [])
+        /** 
+        * Find single data from database
+        *
+        */
+    	public function find($where)
     	{
     		$field 			= array_keys($where);
     		$field 			= $field[0];
 
-    		$sql 			= " SELECT * FROM {$this->table} WHERE {$field}={$where[$field]}";
+    		$sql 			= " SELECT * FROM ". self::$table ." WHERE {$field}={$where[$field]}";
+
+            $exe            = self::connect()->query($sql);
 
     		return $exe;
     	}
 
-    	public function where($arr = ['id' => '1'])
+        /** 
+        * Find multiple data from database
+        *
+        */
+    	public function where($arr)
     	{
-    		$sql 			= ($this->query !== '') ? $this->query : " SELECT * FROM {$this->table} WHERE ";
-    		$f1 			= [];
+    		$where 			= array();
 
-    		foreach($arr as $f2 => $v2)
-    		{
-    			$f1 		= $f2 . ' ' . $v2;
-    		}
+    		foreach($arr as $f=>$r)
+            {
+                array_push($where,$f."="."'".$r."'");
+            }
+
+            $where          = implode(',',$where);
+
+    		$sql 			= " SELECT * FROM ". self::$table ." WHERE {$where} ";
+            $exe            = self::connect()->query($sql);
+
+            return $exe;
     	}
+
+        /** 
+        * Store data to database
+        *
+        */
+        public function create($arr)
+        {
+            $r1             = array();
+            $f1             = array();
+
+            foreach($arr as $f2=>$r2)
+            {
+                array_push($f1,$f2);
+                array_push($r1,"'".$r2."'");
+            }
+
+            $field          = implode(',',$f1);
+            $row            = implode(',',$r1);
+
+            $exe            = self::connect()->query("INSERT INTO ". self::$table ."({$field}) VALUES ({$row})");
+
+            return $exe;
+        }
 
 	}

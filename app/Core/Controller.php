@@ -1,20 +1,43 @@
 <?php
 
 	namespace App\Core;
+
+	use App\Core\Request;
 	
 	Class Controller
 	{
-		protected $models 			= '';
-		protected $liblaries		= '';
-		protected $contents 		= '';
-
-		public function view($view, $data = [])
+		protected function post($index)
 		{
-			// Array key to new variable
-			extract($data, EXTR_PREFIX_SAME, "wddx");
+			return Request::post($index);
+		} 
 
-			$data 					= [];
+		protected function get($index)
+		{
+			return Request::get($index);
+		} 
 
-			require_once '../app/Views/' . $view . '.php';
+		protected function get_all()
+		{
+			return Request::post_all();
+		} 
+
+		protected function post_all()
+		{
+			return Request::post_all();
+		} 
+
+		protected function all()
+		{
+			return Request::all();
+		}
+
+		protected function sess($sess)
+		{
+			return Request::sess($sess);
+		}
+
+		protected function set_session($sess)
+		{
+			return Request::set_session($sess);
 		}
 	}
