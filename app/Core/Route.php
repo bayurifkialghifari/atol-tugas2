@@ -66,13 +66,55 @@
             // Get current request method
             $method                             = $_SERVER['REQUEST_METHOD'];
 
+            // Params for controller
+            $params                             = array();
+
             // Status route
             $route_match_found                  = false;
 
             // Cek route 
             foreach(self::$routes as $route)
             {
-                if($route['expression']         === $path)
+                // New route
+                $route_new                      = explode('/', ltrim($route['expression'], '/'));
+                // Check Route  
+                $route_check                    = explode('/', ltrim($route['expression'], '/'));
+
+                // Cek is array
+                if($route_check[0] !== '' OR is_array($parsed_url))
+                {
+                    // Cek array lenght
+                    if(count($route_check) === count($parsed_url))
+                    {
+                        // Cek special charackter
+                        for($i = 0;count($route_check) > $i;$i++)
+                        {
+                            // Sepcial charackter found
+                            if(stristr($route_check[$i], ':'))
+                            {
+                                // Move to params
+                                array_push($params, $parsed_url[$i]);
+                                
+                                // Unset array `:`
+                                unset($route_new[$i]);
+                                unset($parsed_url[$i]);
+                            }
+                        }
+                    }
+
+                    // Create new path
+                    $route_new                      = implode('/', $route_new);
+                    $path                           = implode('/', $parsed_url);
+                }
+                else
+                {
+                    // Create new path
+                    $route_new                      = implode('/', $route_new);   
+                    $path                           = ltrim($path, '/');
+                }
+
+
+                if($route_new                   === $path)
                 {
                     // Cek method match
                     if(strtolower($method)      === strtolower($route['method']))
@@ -103,7 +145,7 @@
                             call_user_func_array([  $controller, 
                                         $method   ],
 
-                                        []);
+                                        $params);
                         }
 
                         // Do not check other routes
@@ -121,13 +163,13 @@
                 if(self::$methodNotAllowed)
                 {
                     var_dump(self::$methodNotAllowed);
-                    var_dump(Array($path,$method));
+                    var_dump(array($path,$method));
                 }
 
                 if(self::$pathNotFound)
                 {
                     var_dump(self::$pathNotFound);
-                    var_dump(Array($path));
+                    var_dump(array($path));
                 }
             }
 
