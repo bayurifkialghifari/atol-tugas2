@@ -6,9 +6,10 @@
 
 	Class Home extends Controller
 	{
+
 		public function index()
 		{
-			// $this->view() untuk load view
+			// parent::view() untuk load view
 			// post('nama')
 			// sess(nama)
 			// get('nama')
@@ -16,6 +17,11 @@
 
 			$data['app_name'] = 'Contoh';
 
-			$this->view('home', $data);
+			parent::view('home', $data);
+		}
+
+		public function test()
+		{
+			var_dump('asdasd');
 		}
 	}

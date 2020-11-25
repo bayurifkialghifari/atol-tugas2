@@ -1,114 +1,137 @@
 <?php
-	
-	namespace App\Core;
+    
+    namespace App\Core;
 
-	Class Route
-	{
-		protected $url 			= '/';
-		protected $namespace 	= 'App\Controllers';
-		protected $controller 	= 'Home';
-		protected $method 		= 'index';
-		protected $params 		= [];
+    class Route
+    {
 
-		/*
-		*
-		*
-		* Router
-		*
-		*
-		*/
+        private static $routes                  = Array();
+        private static $namespace               = 'App\Controllers';
+        private static $pathNotFound            = null;
+        private static $methodNotAllowed        = null;
 
-		public function group($data = ['url' => '/', 'namespace' => 'App\Controllers'], $control = 'Home', $method = 'index')
-		{
-			$url 						= (isset($_GET['url'])) ? $_GET['url'] : '/';
+        public static function add($expression, $function, $method_function = 'index', $method = 'get')
+        {
+            array_push(self::$routes, Array(
+                'expression'                    => $expression,
+                'function'                      => $function,
+                'method_function'               => $method_function,
+                'method'                        => $method
+            ));
+        }
 
-			/*
-			*
-			*
-			* HMHMHMHMHMH
-			*
-			*
-			*/
+        public static function pathNotFound($function)
+        {
+            self::$pathNotFound                 = $function;
+        }
 
-			$this->url 					= $data['url'];
-			$this->namespace 			= (isset($data['namespace'])) ? $data['namespace'] : $this->namespace;
-			$this->controller 			= ucfirst($control);
-			
-			// Cek string \
-			if(stristr($this->controller, '\\') === false)
-			{
-				$this->controller 		= "\\$this->controller";
-			}
+        public static function methodNotAllowed($function)
+        {
+            self::$methodNotAllowed             = $function;
+        }
 
+        public static function parseURL()
+        {
+            if(isset($_GET['url']))
+            {
+                // Ngilangin / yang ada di akhir
+                $url                            = rtrim($_GET['url'], '/');
 
+                // Nglilangin huruf ajaib
+                $url                            = filter_var($url, FILTER_SANITIZE_URL);
 
-			// Jika url di browser sama dengan yang di web.php
-			if($url === $this->url)
-			{
-				// Instance
-				$this->namespace 		= ($this->namespace !== null) ? $this->namespace : '';
-				$this->controller 		= $this->namespace . $this->controller;
-				
-				// Cek keadaan class
-				if(class_exists($this->controller))
-				{
-					$this->controller 	= new $this->controller;
+                // Ngubah Url ke bentuk array
+                $url                            = explode('/', $url);
 
-					// Cek keadaan method
-					if(method_exists($this->controller, $method))
-					{
-						$this->method 	= $method;
-					}
+                return $url;
+            }
+        }
 
-					/*
-					*
-					*
-					* NANTI TAMBAHIN PARAMETER
-					*
-					*
-					*/
+        public static function run($basepath    = '/')
+        {
 
-					call_user_func_array([	$this->controller, 
-									$this->method 	],
+            // Parse current url
+            $parsed_url                         = self::parseURL();//Parse Uri
 
-									$this->params);
-				}
-				else
-				{
-					echo "Controller tidak ditemukan";
-				}
-			}
-			else
-			{
-				echo "404 EWEH DA";
-			}
-		}
+            if($parsed_url !== null)
+            {
+                $path                           = implode('/',$parsed_url);
 
+                $path                           = '/' . $path;
+            }
+            else
+            {
+                $path                           = '/';
+            }
 
+            // Get current request method
+            $method                             = $_SERVER['REQUEST_METHOD'];
 
+            // Status route
+            $route_match_found                  = false;
 
-		/*
-		*
-		*
-		* Parse URL
-		*
-		*
-		*/
+            // Cek route 
+            foreach(self::$routes as $route)
+            {
+                if($route['expression']         === $path)
+                {
+                    // Cek method match
+                    if(strtolower($method)      === strtolower($route['method']))
+                    {
+                        $route_match_found      = true;
 
-		public function parseURL()
-		{
-			if(isset($_GET['url']))
-			{
-				// Ngilangin / yang ada di akhir
-				$url 	= rtrim($_GET['url'], '/');
+                        // Matching route was found
+                        $controller             = $route['function'];
 
-				// Nglilangin huruf ajaib
-				$url 	= filter_var($url, FILTER_SANITIZE_URL);
+                        // Chek string \
+                        if(stristr($route['function'], '\\') === false)
+                        {
+                            $controller         = "\\{$route['function']}";
+                        }
 
-				// Ngubah Url ke bentuk array
-				$url 	= explode('/', $url);
+                        // Controller + namespace
+                        $controller             = self::$namespace . $controller;
 
-				return $url;
-			}
-		}
-	}
+                        // Check class
+                        if(class_exists($controller))
+                        {
+                            if(method_exists($controller, $route['method_function']))
+                            {
+                                $method         = $route['method_function'];
+                            }
+
+                            // Call class
+                            call_user_func_array([  $controller, 
+                                        $method   ],
+
+                                        []);
+                        }
+
+                        // Do not check other routes
+                        break;
+                    }
+                }
+            }
+
+            // No matching route was found
+            if(!$route_match_found)
+            {
+                header("HTTP/1.0 404 Not Found");
+
+                // Method not match
+                if(self::$methodNotAllowed)
+                {
+                    var_dump(self::$methodNotAllowed);
+                    var_dump(Array($path,$method));
+                }
+
+                if(self::$pathNotFound)
+                {
+                    var_dump(self::$pathNotFound);
+                    var_dump(Array($path));
+                }
+            }
+
+        }
+
+    }
