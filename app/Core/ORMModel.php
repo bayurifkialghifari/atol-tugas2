@@ -39,6 +39,16 @@
     		return $exe;
     	}
 
+    	public function find($where = [])
+    	{
+    		$field 			= array_keys($where);
+    		$field 			= $field[0];
+
+    		$sql 			= " SELECT * FROM {$this->table} WHERE {$field}={$where[$field]}";
+
+    		return $exe;
+    	}
+
     	public function where($arr = ['id' => '1'])
     	{
     		$sql 			= ($this->query !== '') ? $this->query : " SELECT * FROM {$this->table} WHERE ";
