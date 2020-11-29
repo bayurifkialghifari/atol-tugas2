@@ -4,8 +4,6 @@
 
 	Class ORMModel
 	{
-		protected static $table = '';
-
 		/** 
         * Connect to database
         *
@@ -16,21 +14,13 @@
         }
 
         /** 
-        * Get name table database
-        *
-        */
-		public static function getChildName() 
-		{
-        	self::$table   = get_called_class();
-    	}
-
-        /** 
         * Get all data from database
         *
         */
     	public function all()
     	{
-    		$sql 			= " SELECT * FROM " . self::$table;
+            $table          = explode('\\', get_called_class())[2];
+    		$sql 			= " SELECT * FROM {$table}";
 
     		$exe 			= self::connect()->query($sql);
 
@@ -43,10 +33,11 @@
         */
     	public function find($where)
     	{
+            $table          = explode('\\', get_called_class())[2];
     		$field 			= array_keys($where);
     		$field 			= $field[0];
 
-    		$sql 			= " SELECT * FROM ". self::$table ." WHERE {$field}={$where[$field]}";
+    		$sql 			= " SELECT * FROM {$table} WHERE {$field}={$where[$field]}";
 
             $exe            = self::connect()->query($sql);
 
@@ -59,6 +50,7 @@
         */
     	public function where($arr)
     	{
+            $table          = explode('\\', get_called_class())[2];
     		$where 			= array();
 
     		foreach($arr as $f=>$r)
@@ -68,7 +60,7 @@
 
             $where          = implode(',',$where);
 
-    		$sql 			= " SELECT * FROM ". self::$table ." WHERE {$where} ";
+    		$sql 			= " SELECT * FROM {$table} WHERE {$where} ";
             $exe            = self::connect()->query($sql);
 
             return $exe;
@@ -80,6 +72,7 @@
         */
         public function create($arr)
         {
+            $table          = explode('\\', get_called_class())[2];
             $r1             = array();
             $f1             = array();
 
@@ -92,9 +85,61 @@
             $field          = implode(',',$f1);
             $row            = implode(',',$r1);
 
-            $exe            = self::connect()->query("INSERT INTO ". self::$table ."({$field}) VALUES ({$row})");
+            $exe            = self::connect()->query("INSERT INTO {$table} ({$field}) VALUES ({$row})");
 
             return $exe;
+        }
+
+        /** 
+        * Update data to database
+        *
+        */
+        public function update($tabel_id,$data)
+        {
+            $table          = explode('\\', get_called_class())[2];
+            $r1             = array();
+
+            foreach($data as $f=>$r)
+            {
+                array_push($r1,$f."="."'".$r."'");
+            }
+
+            $key            = array_keys($tabel_id);
+            $key            = $key[0];
+            $id             = $tabel_id[$key];
+
+            $row            = implode(',',$r1);
+
+            $query          = self::connect()->query("UPDATE {$tabel} SET {$row} WHERE {$key}='{$id}'");
+
+            return $query;
+        }
+
+        /** 
+        * Delete data to database
+        *
+        */
+        public function delete($tabel_id)
+        {
+            $table          = explode('\\', get_called_class())[2];
+            $key            = array_keys($tabel_id);
+            $key            = $key[0];
+            $id             = $tabel_id[$key];
+
+            $query          = self::connect()->query("DELETE FROM {$table} WHERE {$key}='{$id}'");
+
+            return $query;      
+        }
+
+        /** 
+        * Get insert id
+        *
+        */
+        public function insert_id()
+        {
+            $query          = self::connect()->insert_id;
+
+            return $query;
         }
 
 	}

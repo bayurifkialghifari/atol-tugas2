@@ -4,6 +4,7 @@
 
 	use App\Core\Controller;
 	use App\Liblaries\Email;
+	use App\Models\Faqs;
 
 	Class Home extends Controller
 	{
@@ -28,5 +29,10 @@
 			Email::set_host('GGWP');
 			Email::set_username('WPWP');
 			Email::send();
+		}
+
+		public function orm()
+		{
+			var_dump(Faqs::all());
 		}
 	}

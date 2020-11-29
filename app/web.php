@@ -18,5 +18,6 @@
 	// Router
 	$app->add('/', 'Home');
 	$app->add('/test_email', 'Home', 'email');
+	$app->add('/test_orm', 'Home', 'orm');
 
 	$app->run('/');
