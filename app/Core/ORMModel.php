@@ -14,13 +14,21 @@
         }
 
         /** 
+        * Get table name
+        *
+        */
+        public static function getTableName($table = null)
+        {
+            return ($table === null) ? explode('\\', get_called_class())[2] : $table;
+        }
+
+        /** 
         * Get all data from database
         *
         */
     	public function all()
     	{
-            $table          = explode('\\', get_called_class())[2];
-    		$sql 			= " SELECT * FROM {$table}";
+    		$sql 			= " SELECT * FROM " . self::getTableName();
 
     		$exe 			= self::connect()->query($sql);
 
@@ -33,11 +41,10 @@
         */
     	public function find($where)
     	{
-            $table          = explode('\\', get_called_class())[2];
     		$field 			= array_keys($where);
     		$field 			= $field[0];
 
-    		$sql 			= " SELECT * FROM {$table} WHERE {$field}={$where[$field]}";
+    		$sql 			= " SELECT * FROM ". self::getTableName() ." WHERE {$field}={$where[$field]}";
 
             $exe            = self::connect()->query($sql);
 
@@ -50,7 +57,6 @@
         */
     	public function where($arr)
     	{
-            $table          = explode('\\', get_called_class())[2];
     		$where 			= array();
 
     		foreach($arr as $f=>$r)
@@ -60,7 +66,7 @@
 
             $where          = implode(',',$where);
 
-    		$sql 			= " SELECT * FROM {$table} WHERE {$where} ";
+    		$sql 			= " SELECT * FROM ". self::getTableName() ." WHERE {$where} ";
             $exe            = self::connect()->query($sql);
 
             return $exe;
@@ -72,7 +78,6 @@
         */
         public function create($arr)
         {
-            $table          = explode('\\', get_called_class())[2];
             $r1             = array();
             $f1             = array();
 
@@ -85,7 +90,7 @@
             $field          = implode(',',$f1);
             $row            = implode(',',$r1);
 
-            $exe            = self::connect()->query("INSERT INTO {$table} ({$field}) VALUES ({$row})");
+            $exe            = self::connect()->query("INSERT INTO ". self::getTableName() ." ({$field}) VALUES ({$row})");
 
             return $exe;
         }
@@ -96,7 +101,6 @@
         */
         public function update($tabel_id,$data)
         {
-            $table          = explode('\\', get_called_class())[2];
             $r1             = array();
 
             foreach($data as $f=>$r)
@@ -110,7 +114,7 @@
 
             $row            = implode(',',$r1);
 
-            $query          = self::connect()->query("UPDATE {$tabel} SET {$row} WHERE {$key}='{$id}'");
+            $query          = self::connect()->query("UPDATE ". self::getTableName() ." SET {$row} WHERE {$key}='{$id}'");
 
             return $query;
         }
@@ -121,12 +125,11 @@
         */
         public function delete($tabel_id)
         {
-            $table          = explode('\\', get_called_class())[2];
             $key            = array_keys($tabel_id);
             $key            = $key[0];
             $id             = $tabel_id[$key];
 
-            $query          = self::connect()->query("DELETE FROM {$table} WHERE {$key}='{$id}'");
+            $query          = self::connect()->query("DELETE FROM ". self::getTableName() ." WHERE {$key}='{$id}'");
 
             return $query;      
         }
