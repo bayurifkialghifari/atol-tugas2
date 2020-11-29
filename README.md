@@ -33,6 +33,7 @@ Open database.php in app/config/database.php then change according to your datab
 
 ```
 	composer dump-autoload
+	composer install
 ```
 
 
