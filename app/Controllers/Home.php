@@ -3,6 +3,7 @@
 	namespace App\Controllers;
 
 	use App\Core\Controller;
+	use App\Liblaries\Email;
 
 	Class Home extends Controller
 	{
@@ -20,5 +21,12 @@
 			$data['app_name'] = 'Welcome';
 
 			view('home', $data);
+		}
+
+		public function email()
+		{
+			Email::set_host('GGWP');
+			Email::set_username('WPWP');
+			Email::send();
 		}
 	}

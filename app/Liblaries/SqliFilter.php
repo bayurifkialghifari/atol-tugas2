@@ -6,6 +6,12 @@
 
 	Class SqliFilter extends Model
 	{
+		/**
+        * @var
+        *
+        * Sqli clean
+        *
+        */
 		public function sqli_clean($data)
 		{
 			$conn 		= parent::connect();

@@ -17,5 +17,6 @@
 
 	// Router
 	$app->add('/', 'Home');
+	$app->add('/test_email', 'Home', 'email');
 
 	$app->run('/');

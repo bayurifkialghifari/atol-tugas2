@@ -4,6 +4,12 @@
 
     Class XssFilter
     {
+        /**
+        * @var
+        *
+        * Xssfilter
+        *
+        */
         public function xss_clean($data)
         {
             // Fix &entity\n;

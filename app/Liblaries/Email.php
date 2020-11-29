@@ -1,115 +1,184 @@
 <?php
+
+    namespace App\Liblaries;
+    
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
-    namespace App\Liblaries;
-
-    Class Email extends PHPMailer 
+    Class Email
     {
-        private $host               = 'smtp.gmail.com';
-        private $username           = '';
-        private $password           = '';
-        private $from               = array();
-        private $to                 = array();
-        private $reply_to           = array();
-        private $cc                 = '';
-        private $bbc                = '';
-        private $subject            = '';
-        private $body               = '';
-        private $altBody            = '';
-        private $attachments        = '';
-        private $port               = 465;
+        /**
+        * @param
+        * 
+        * Email parameter
+        *
+        */
+        private static $host        = 'smtp.gmail.com';
+        private static $username    = '';
+        private static $password    = '';
+        private static $from        = array();
+        private static $to          = array();
+        private static $reply_to    = array();
+        private static $cc          = '';
+        private static $bbc         = '';
+        private static $subject     = '';
+        private static $body        = '';
+        private static $altBody     = '';
+        private static $attachments = '';
+        private static $attach_name = '';
+        private static $port        = 465;
 
+        /**
+        * @var
+        * 
+        * Set host
+        *
+        */
         public function set_host($host)
         {
-            $this->host             = $host;
+            self::$host             = $host;
         }
 
+        /**
+        * @param
+        * 
+        * Set username
+        *
+        */
         public function set_username($username)
         {
-            $this->username         = $username;
+            self::$username         = $username;
         }
 
+        /**
+        * @param
+        * 
+        * Set password
+        *
+        */
         public function set_password($password)
         {
-            $this->password         = $password;
+            self::$password         = $password;
         }
 
+        /**
+        * @param
+        * 
+        * Set port
+        *
+        */
         public function set_port($port)
         {
-            $this->port             = $port;
+            self::$port             = $port;
         }
 
+        /**
+        * @param
+        * 
+        * Get host
+        *
+        */
         public function get_host()
         {
-            return $this->host;
+            return self::$host;
         }
 
+        /**
+        * @param
+        * 
+        * Get username
+        *
+        */
         public function get_username()
         {
-            return $this->username;
+            return self::$username;
         }
 
+        /**
+        * @param
+        * 
+        * Get password
+        *
+        */
         public function get_password()
         {
-            return $this->password;
+            return self::$password;
         }
 
+        /**
+        * @param
+        * 
+        * Get port
+        *
+        */
         public function get_port()
         {
-            return $this->port;
+            return self::$port;
         }
 
-        public function send($config)
+        /**
+        * 
+        * Execute
+        *
+        */
+        public function send($config = array())
         {
-            parent::$SMTPDebug      = SMTP::DEBUG_SERVER;
-            parent::isSMTP();
-            parent::$Host           = $this->host;
-            parent::$SMTPAuth       = true;
-            parent::$Username       = $this->username;
-            parent::$Password       = $this->password;
-            parent::$SMTPSecure     = parent::ENCRYPTION_STARTTLS;
-            parent::$Port           = $this->port;
-            
-            parent::send();
+            /**
+            * 
+            * Instance class PHPMailer
+            *
+            */
+            $mail                   = new PHPMailer();
+
+            try
+            {
+                $mail->SMTPDebug        = SMTP::DEBUG_SERVER;
+                $mail->isSMTP();
+
+                /**
+                * 
+                * Server setting
+                *
+                */
+                $mail->Host             = self::get_host();                    
+                $mail->SMTPAuth         = true;                                   
+                $mail->Username         = self::get_username();                     
+                $mail->Password         = self::get_password();                           
+                $mail->SMTPSecure       = PHPMailer::ENCRYPTION_SMTPS; // 587; `PHPMailer::ENCRYPTION_STARTTLS`
+                $mail->Port             = self::get_port();
+
+                /**
+                * 
+                * Recipients setting
+                *
+                */
+                $mail->setFrom('from@example.com', 'Mailer');
+                $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
+                $mail->addAddress('ellen@example.com');               // Name is optional
+                $mail->addReplyTo('info@example.com', 'Information');
+                $mail->addCC('cc@example.com');
+                $mail->addBCC('bcc@example.com');
+
+                // Attachments
+                $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+                $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+
+                // Content
+                $mail->isHTML(true);                                  // Set email format to HTML
+                $mail->Subject          = 'Here is the subject';
+                $mail->Body             = 'This is the HTML message body <b>in bold!</b>';
+                $mail->AltBody          = 'This is the body in plain text for non-HTML mail clients';
+
+                // $mail->send();
+                var_dump($mail);
+                exit;
+            }
+            catch(Exception $e)
+            {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+
+                die();                
+            }
         }
     }
-
-    // Instantiation and passing `true` enables exceptions
-    // $mail = new PHPMailer(true);
-
-    // try {
-    //     //Server settings
-        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-    //     $mail->isSMTP();                                            // Send using SMTP
-    //     $mail->Host       = 'smtp1.example.com';                    // Set the SMTP server to send through
-    //     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-    //     $mail->Username   = 'user@example.com';                     // SMTP username
-    //     $mail->Password   = 'secret';                               // SMTP password
-    //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-    //     $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-
-    //     //Recipients
-    //     $mail->setFrom('from@example.com', 'Mailer');
-    //     $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
-    //     $mail->addAddress('ellen@example.com');               // Name is optional
-    //     $mail->addReplyTo('info@example.com', 'Information');
-    //     $mail->addCC('cc@example.com');
-    //     $mail->addBCC('bcc@example.com');
-
-    //     // Attachments
-    //     $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-    //     $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-
-    //     // Content
-    //     $mail->isHTML(true);                                  // Set email format to HTML
-    //     $mail->Subject = 'Here is the subject';
-    //     $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    //     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-    //     $mail->send();
-    //     echo 'Message has been sent';
-    // } catch (Exception $e) {
-    //     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    // }
