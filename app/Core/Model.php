@@ -5,6 +5,14 @@
 	Class Model
 	{
 		/** 
+        * @param
+        * 
+        * Query Builder
+        *
+        */
+        private static $sql_builder;
+
+		/** 
 		* Connect to database
 		*
 		*/
@@ -12,6 +20,17 @@
 		{
 			return mysqli_connect(db_host, db_user, db_pass, db_name);
 		}
+
+		/** 
+        * Raw query database
+        *
+        */
+        public function query($sql)
+        {
+            $exe 	= self::connect()->query($sql);
+
+            return $exe;
+        }
 
 		/** 
 		* Store data to database
@@ -85,5 +104,183 @@
 
 			return $query;
 		}
+
+
+
+
+		/**
+        * @var
+        *
+        * _________________
+        * 
+        *   Query Builder
+        * _________________
+        *
+        */
+
+        /** 
+        * Select query database
+        *
+        */
+        public function select($select)
+        {
+            self::$sql_builder      = " SELECT {$select} ";
+
+            return $this;
+        }
+
+        /** 
+        * From query database
+        *
+        */
+        public function from($table)
+        {
+        	self::$sql_builder 		.= " FROM {$table} ";
+
+            return $this;
+        }
+
+        /** 
+        * Join query database
+        *
+        */
+        public function join($table, $where1, $where2)
+        {
+            self::$sql_builder      .= " JOIN {$table} ON {$where1} = {$where2} ";
+
+            return $this;
+        }
+
+        /** 
+        * Left Join query database
+        *
+        */
+        public function leftJoin($table, $where1, $where2)
+        {
+            self::$sql_builder      .= " LEFT JOIN {$table} ON {$where1} = {$where2} ";
+
+            return $this;
+        }
+
+        /** 
+        * Right Join query database
+        *
+        */
+        public function rightJoin($table, $where1, $where2)
+        {
+            self::$sql_builder      .= " RIGHT JOIN {$table} ON {$where1} = {$where2} ";
+
+            return $this;
+        }
+
+        /** 
+        * Having query database
+        *
+        */
+        public function having($field, $operator, $value)
+        {
+            self::$sql_builder      .= " WHERE {$field} {$operator} '{$value}' ";
+
+            return $this;
+        }
+
+        /** 
+        * Where query database
+        *
+        */
+        public function where($field, $value)
+        {
+            self::$sql_builder      .= " WHERE {$field} = '{$value}' ";
+
+            return $this;
+        }
+
+        /** 
+        * Limit query database
+        *
+        */
+        public function limit($value)
+        {
+            self::$sql_builder      .= " LIMIT {$value} ";
+
+            return $this;
+        }
+
+        /** 
+        * Order By query database
+        *
+        */
+        public function orderBy($field, $type = 'ASC')
+        {
+            self::$sql_builder      .= " ORDER BY {$field} {$type} ";
+
+            return $this;
+        }
+
+        /** 
+        * Group By query database
+        *
+        */
+        public function groupBy($field)
+        {
+            self::$sql_builder      .= " GROUP BY {$field} ";
+
+            return $this;
+        }
+
+        /** 
+        * Paginate query database
+        *
+        */
+        public function paginate($start, $page)
+        {
+            self::$sql_builder      .= " LIMIT {$start}, {$page} ";
+
+            return $this;
+        }
+
+        /** 
+        * And query database
+        *
+        */
+        public function and()
+        {
+            self::$sql_builder      .= " AND ";
+
+            return $this;
+        }
+
+        /** 
+        * Or query database
+        *
+        */
+        public function or()
+        {
+            self::$sql_builder      .= " OR ";
+
+            return $this;
+        }
+
+        /** 
+        * Raw query database
+        *
+        */
+        public function raw($sql)
+        {
+            self::$sql_builder      .= $sql;
+
+            return $this;
+        }
+
+        /** 
+        * Execute query builder database
+        *
+        */
+        public function get()
+        {
+            $exe                    = self::connect()->query(self::$sql_builder);
+
+            return $exe;
+        }
 		
 	}

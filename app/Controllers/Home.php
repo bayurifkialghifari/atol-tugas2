@@ -33,6 +33,9 @@
 
 		public function orm()
 		{
-			var_dump(Faqs::all());
+			$model = new Faqs;
+			$exe = $model->select('*')->where('asdasd', 'asdsad')->limit(1)->get();
+
+			var_dump($exe);
 		}
 	}

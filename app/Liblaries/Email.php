@@ -35,7 +35,7 @@
         * Set host
         *
         */
-        public function set_host($host)
+        public function host($host)
         {
             self::$host             = $host;
         }
@@ -46,7 +46,7 @@
         * Set username
         *
         */
-        public function set_username($username)
+        public function username($username)
         {
             self::$username         = $username;
         }
@@ -57,7 +57,7 @@
         * Set password
         *
         */
-        public function set_password($password)
+        public function password($password)
         {
             self::$password         = $password;
         }
@@ -68,13 +68,68 @@
         * Set port
         *
         */
-        public function set_port($port)
+        public function port($port)
         {
             self::$port             = $port;
         }
 
         /**
         * @param
+        * 
+        * Set From
+        *
+        */
+        public function from($from = array())
+        {
+            self::$from             = $from;
+        }
+
+        /**
+        * @param
+        * 
+        * Set To
+        *
+        */
+        public function to($to = array())
+        {
+            self::$to             = $to;
+        }
+
+        /**
+        * @param
+        * 
+        * Set Replyto
+        *
+        */
+        public function reply_to($reply_to = array())
+        {
+            self::$reply_to       = $reply_to;
+        }
+
+        /**
+        * @param
+        * 
+        * Set CC
+        *
+        */
+        public function cc($cc)
+        {
+            self::$cc             = $cc;
+        }
+
+        /**
+        * @param
+        * 
+        * Set CC
+        *
+        */
+        public function bbc($bbc)
+        {
+            self::$bbc            = $bbc;
+        }
+
+        /**
+        * @return
         * 
         * Get host
         *
@@ -85,7 +140,7 @@
         }
 
         /**
-        * @param
+        * @return
         * 
         * Get username
         *
@@ -96,7 +151,7 @@
         }
 
         /**
-        * @param
+        * @return
         * 
         * Get password
         *
@@ -107,7 +162,7 @@
         }
 
         /**
-        * @param
+        * @return
         * 
         * Get port
         *
@@ -129,7 +184,7 @@
             * Instance class PHPMailer
             *
             */
-            $mail                   = new PHPMailer();
+            $mail                       = new PHPMailer();
 
             try
             {
@@ -155,7 +210,7 @@
                 */
                 $mail->setFrom('from@example.com', 'Mailer');
                 $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
-                $mail->addAddress('ellen@example.com');               // Name is optional
+                // $mail->addAddress('ellen@example.com');               // Name is optional
                 $mail->addReplyTo('info@example.com', 'Information');
                 $mail->addCC('cc@example.com');
                 $mail->addBCC('bcc@example.com');
