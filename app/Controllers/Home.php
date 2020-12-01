@@ -26,8 +26,14 @@
 
 		public function email()
 		{
-			Email::set_host('GGWP');
-			Email::set_username('WPWP');
+			Email::host('zonaseller.sudamiskin.com');
+			Email::username('test@zonaseller.sudamiskin.com');
+			Email::password('@Cimahi123');
+			Email::from(['test@zonaseller.sudamiskin.com', 'GGWP']);
+			Email::to(['bayurifkialgh@gmail.com', 'GGWP']);
+			// Email::reply_to(['test@zonaseller.sudamiskin.com', 'Balas']);
+			Email::subject('ASDASD');
+			Email::body('ASDASD');
 			Email::send();
 		}
 

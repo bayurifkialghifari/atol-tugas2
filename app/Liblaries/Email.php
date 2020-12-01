@@ -17,16 +17,16 @@
         private static $host        = 'smtp.gmail.com';
         private static $username    = '';
         private static $password    = '';
-        private static $from        = array();
-        private static $to          = array();
-        private static $reply_to    = array();
-        private static $cc          = '';
-        private static $bbc         = '';
+        private static $from        = array('test', 'test@test.com');
+        private static $to          = array('test', 'test@test.com');
+        private static $reply_to    = null;
+        private static $cc          = null;
+        private static $bbc         = null;
         private static $subject     = '';
         private static $body        = '';
         private static $altBody     = '';
-        private static $attachments = '';
-        private static $attach_name = '';
+        private static $attachments = null;
+        private static $attach_name = null;
         private static $port        = 465;
 
         /**
@@ -120,12 +120,67 @@
         /**
         * @param
         * 
-        * Set CC
+        * Set BCC
         *
         */
         public function bbc($bbc)
         {
             self::$bbc            = $bbc;
+        }
+
+        /**
+        * @param
+        * 
+        * Set Subject
+        *
+        */
+        public function subject($subject)
+        {
+            self::$subject        = $subject;
+        }
+
+        /**
+        * @param
+        * 
+        * Set Body
+        *
+        */
+        public function body($body)
+        {
+            self::$body          = $body;
+        }
+
+        /**
+        * @param
+        * 
+        * Set Alt Body
+        *
+        */
+        public function alt_body($altBody)
+        {
+            self::$altBody        = $altBody;
+        }
+
+        /**
+        * @param
+        * 
+        * Set Alt Body
+        *
+        */
+        public function attachments($attachments)
+        {
+            self::$attachments    = $attachments;
+        }
+
+        /**
+        * @param
+        * 
+        * Set Alt Body
+        *
+        */
+        public function attach_name($attach_name)
+        {
+            self::$attach_name    = $attach_name;
         }
 
         /**
@@ -173,6 +228,116 @@
         }
 
         /**
+        * @return
+        * 
+        * Get from
+        *
+        */
+        public function get_from()
+        {
+            return self::$from;
+        }
+
+        /**
+        * @return
+        * 
+        * Get to
+        *
+        */
+        public function get_to()
+        {
+            return self::$to;
+        }
+
+        /**
+        * @return
+        * 
+        * Get to
+        *
+        */
+        public function get_reply_to()
+        {
+            return self::$reply_to;
+        }
+
+        /**
+        * @return
+        * 
+        * Get cc
+        *
+        */
+        public function get_cc()
+        {
+            return self::$cc;
+        }
+
+        /**
+        * @return
+        * 
+        * Get bbc
+        *
+        */
+        public function get_bbc()
+        {
+            return self::$bbc;
+        }
+
+        /**
+        * @return
+        * 
+        * Get subject
+        *
+        */
+        public function get_subject()
+        {
+            return self::$subject;
+        }
+
+        /**
+        * @return
+        * 
+        * Get body
+        *
+        */
+        public function get_body()
+        {
+            return self::$body;
+        }
+
+        /**
+        * @return
+        * 
+        * Get alt body
+        *
+        */
+        public function get_alt_body()
+        {
+            return self::$altBody;
+        }
+
+        /**
+        * @return
+        * 
+        * Get attachment
+        *
+        */
+        public function get_attachments()
+        {
+            return self::$attachments;
+        }
+
+        /**
+        * @return
+        * 
+        * Get attachment name
+        *
+        */
+        public function get_attach_name()
+        {
+            return self::$attach_name;
+        }
+
+        /**
         * 
         * Execute
         *
@@ -184,7 +349,7 @@
             * Instance class PHPMailer
             *
             */
-            $mail                       = new PHPMailer();
+            $mail                       = new PHPMailer(true);
 
             try
             {
@@ -208,26 +373,63 @@
                 * Recipients setting
                 *
                 */
-                $mail->setFrom('from@example.com', 'Mailer');
-                $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
+                $mail->From             = self::get_from()[0];
+                $mail->FromName         = self::get_from()[1];
+                $mail->addAddress(self::get_to()[0], self::get_to()[1]);     // Add a recipient
                 // $mail->addAddress('ellen@example.com');               // Name is optional
-                $mail->addReplyTo('info@example.com', 'Information');
-                $mail->addCC('cc@example.com');
-                $mail->addBCC('bcc@example.com');
+                if(self::get_reply_to() !== null)
+                {
+                    $mail->addReplyTo(self::get_reply_to()[0], self::get_reply_to()[1]);
+                }
+                
 
-                // Attachments
-                $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-                $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+                /**
+                *
+                * CC BBC
+                *
+                */
+                if(self::get_cc() !== null)
+                {
+                    $mail->addCC(self::get_cc());
+                }
 
-                // Content
+                if(self::get_bbc() !== null)
+                {
+                    $mail->addBCC(self::get_bbc());
+                }
+
+                
+                /**
+                * 
+                * Attachments
+                *
+                */
+                if(self::get_attachments() !== null && self::get_attach_name() !== null)
+                {
+                    $mail->addAttachment(self::get_attachments(), self::get_attach_name());
+                }
+                else if(self::get_attachments() !== null)
+                {
+                    $mail->addAttachment(self::get_attachments());
+                }
+
+
+                /**
+                * 
+                * Content
+                *
+                */
                 $mail->isHTML(true);                                  // Set email format to HTML
-                $mail->Subject          = 'Here is the subject';
-                $mail->Body             = 'This is the HTML message body <b>in bold!</b>';
-                $mail->AltBody          = 'This is the body in plain text for non-HTML mail clients';
+                $mail->Subject          = self::get_subject();
+                $mail->Body             = self::get_body();
+                $mail->AltBody          = self::get_alt_body();
 
-                // $mail->send();
-                var_dump($mail);
-                exit;
+                /**
+                * 
+                * Execute
+                *
+                */
+                return $mail->send();
             }
             catch(Exception $e)
             {
