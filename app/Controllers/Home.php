@@ -5,6 +5,7 @@
 	use App\Core\Controller;
 	use App\Liblaries\Email;
 	use App\Liblaries\Upload;
+	use App\Liblaries\Pagination;
 	use App\Models\Faqs;
 
 	Class Home extends Controller
@@ -66,5 +67,19 @@
 		public function upload_exe()
 		{
 			Upload::execute('file');
+		}
+
+		public function pagination()
+		{
+			Pagination::href(base_url().'test_pagination_handler');
+			
+			echo Pagination::create_link(10);
+		}
+
+		public function pagination_handler($id)
+		{
+			Pagination::href(base_url().'test_pagination_handler');
+			
+			echo Pagination::create_link(10, $id);
 		}
 	}
