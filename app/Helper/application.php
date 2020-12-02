@@ -9,3 +9,12 @@
 
 		require_once '../app/Views/' . $view . '.php';
 	}
+
+	function view_html_only($view, $data = [])
+	{
+		ob_start();
+
+		view($view, $data);
+
+		return ob_get_clean();
+	}

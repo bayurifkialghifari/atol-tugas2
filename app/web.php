@@ -19,5 +19,7 @@
 	$app->add('/', 'Home');
 	$app->add('/test_email', 'Home', 'email');
 	$app->add('/test_orm', 'Home', 'orm');
+	$app->add('/test_upload', 'Home', 'upload_view');
+	$app->add('/test_upload', 'Home', 'upload_exe', 'post');
 
 	$app->run('/');
