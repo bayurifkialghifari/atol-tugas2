@@ -31,7 +31,7 @@ Open database.php in app/config/database.php then change according to your datab
 
 4. Composer
 
-```
+```bash
 	composer dump-autoload
 	composer install
 ```
@@ -41,3 +41,11 @@ Open database.php in app/config/database.php then change according to your datab
 
 Ready to use
 
+- Features
+
+1. Routing
+2. Email
+3. File upload
+4. ORM Model
+5. Query Builder
+6. PSR 4 Autoloadings
