@@ -13,10 +13,18 @@
         *
         */
 		private static $href;
-		private static $class;
 		private static $open_attr;
 		private static $close_attr;
 		private static $link_attr;
+
+        private static $previous_btn = true;
+        private static $next_btn     = true;
+        private static $previous_html= 'Previous';
+        private static $next_html    = 'Next';
+
+        private static $anchor_class;
+        private static $ul_class;
+		private static $li_class;
 
 		/**
         * @var
@@ -32,12 +40,78 @@
 		/**
         * @var
         *
-        * Set class
+        * Set anchor_class
         *
         */
-        public function class($class)
+        public function anchor_class($anchor_class)
         {
-        	self::$class 		= $class;
+        	self::$anchor_class = $anchor_class;
+        }
+
+        /**
+        * @var
+        *
+        * Set ul_class
+        *
+        */
+        public function ul_class($ul_class)
+        {
+            self::$ul_class     = $ul_class;
+        }
+
+        /**
+        * @var
+        *
+        * Set li_class
+        *
+        */
+        public function li_class($li_class)
+        {
+            self::$li_class     = $li_class;
+        }
+
+        /**
+        * @var
+        *
+        * Set previous_btn
+        *
+        */
+        public function previous_btn($previous_btn)
+        {
+            self::$previous_btn  = $previous_btn;
+        }
+
+        /**
+        * @var
+        *
+        * Set previous_html
+        *
+        */
+        public function previous_html($previous_html)
+        {
+            self::$previous_html = $previous_html;
+        }
+
+        /**
+        * @var
+        *
+        * Set next_btn
+        *
+        */
+        public function next_btn($next_btn)
+        {
+            self::$next_btn     = $next_btn;
+        }
+
+        /**
+        * @var
+        *
+        * Set next_html
+        *
+        */
+        public function next_html($next_html)
+        {
+            self::$next_html    = $next_html;
         }
 
         /**
@@ -87,12 +161,78 @@
         /**
         * @return
         *
-        * Get class
+        * Get anchor_class
         *
         */
-        public function get_class()
+        public function get_anchor_class()
         {
-        	return self::$class;
+        	return self::$anchor_class;
+        }
+
+        /**
+        * @return
+        *
+        * Get ul_class
+        *
+        */
+        public function get_ul_class()
+        {
+            return self::$ul_class;
+        }
+
+        /**
+        * @return
+        *
+        * Get li_class
+        *
+        */
+        public function get_li_class()
+        {
+            return self::$li_class;
+        }
+
+        /**
+        * @return
+        *
+        * Set previous_btn
+        *
+        */
+        public function get_previous_btn()
+        {
+            return self::$previous_btn;
+        }
+
+        /**
+        * @return
+        *
+        * Set previous_html
+        *
+        */
+        public function get_previous_html()
+        {
+            return self::$previous_html;
+        }
+
+        /**
+        * @return
+        *
+        * Set next_btn
+        *
+        */
+        public function get_next_btn()
+        {
+            return self::$next_btn;
+        }
+
+        /**
+        * @return
+        *
+        * Set next_html
+        *
+        */
+        public function get_next_html()
+        {
+            return self::$next_html;
         }
 
         /**
@@ -143,7 +283,6 @@
 	        * Link pagination
 	        *
 	        */
-			$link 			= '';
 			$pages 			= ceil($total / $page);
 
 			/**
@@ -152,11 +291,35 @@
 	        * Custom parameter for pagination link
 	        *
 	        */
-	        $href 			= (isset($config['href'])) 			? $config['href'] 		: self::get_href();
-	        $class 			= (isset($config['class'])) 		? $config['class'] 		: self::get_class();
-	        $open_attr 		= (isset($config['open_attr'])) 	? $config['open_attr'] 	: self::get_open_attr();
-	        $close_attr 	= (isset($config['close_attr'])) 	? $config['close_attr'] : self::get_close_attr();
-	        $link_attr 		= (isset($config['link_attr'])) 	? $config['link_attr'] 	: self::get_link_attr();
+	        $href 			= (isset($config['href'])) 			? $config['href'] 		    : self::get_href();
+            $anchor_class   = (isset($config['anchor_class']))  ? $config['anchor_class']   : self::get_anchor_class();
+            $ul_class       = (isset($config['ul_class']))      ? $config['ul_class']       : self::get_ul_class();
+            $li_class       = (isset($config['li_class']))      ? $config['li_class']       : self::get_li_class();
+            $previous_btn   = (isset($config['previous_btn']))  ? $config['previous_btn']   : self::get_previous_btn();
+            $previous_html  = (isset($config['previous_html'])) ? $config['previous_html']  : self::get_previous_html();
+            $next_btn       = (isset($config['next_btn']))      ? $config['next_btn']       : self::get_next_btn();
+	        $next_html 	    = (isset($config['next_html'])) 	? $config['next_html'] 	    : self::get_next_html();
+	        $open_attr 		= (isset($config['open_attr'])) 	? $config['open_attr'] 	    : self::get_open_attr();
+	        $close_attr 	= (isset($config['close_attr'])) 	? $config['close_attr']     : self::get_close_attr();
+	        $link_attr 		= (isset($config['link_attr'])) 	? $config['link_attr'] 	    : self::get_link_attr();
+            $link           = '';
+
+            if($previous_btn === true)
+            {
+                if($page > 1)
+                {
+                    $previous_href  = $page - 1;
+        			$link 			.= "
+                                        <ul class='{$ul_class}'>
+                                            <li class='{$li_class}'>
+                                                <a 
+                                                    class='{$anchor_class}'
+                                                    href='{$href}/{$previous_href}'>
+                                                    {$previous_html}
+                                                </a>
+                                            </li>";
+                }
+            }
 
 			for($i = 1;$i <= $pages;$i ++)
 			{
@@ -166,17 +329,37 @@
 		        * Create link pagination
 		        *
 		        */
-				$link 	.= "{$open_attr}
-								<a 
-									class='{$class}' 
-									href='{$href}/{$i}'
-									{$link_attr}
-								>
-										{$i}
-								</a>
-							{$close_attr}";
+				$link 	        .= "
+                                    {$open_attr}
+                                        <li class='{$li_class}'>
+    								        <a 
+            									class='{$anchor_class}' 
+            									href='{$href}/{$i}'
+            									{$link_attr}
+    								        >
+    										  {$i}
+    								        </a>
+                                        </li>
+    							    {$close_attr}";
 
 			}
+
+            if($next_btn === true)
+            {
+                if($page < $pages)
+                {
+                    $next_href      = $page + 1;
+                    $link           .= "
+                                            <li class='{$li_class}'>
+                                                <a 
+                                                    class='{$anchor_class}'
+                                                    href='{$href}/{$next_href}'>
+                                                    {$next_html}
+                                                </a>
+                                            </li>
+                                        </ul>";
+                }
+            }
 
 			return $link;
 		}
