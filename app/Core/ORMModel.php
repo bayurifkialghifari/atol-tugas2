@@ -10,7 +10,7 @@
         * Query Builder
         *
         */
-        private static $sql_builder;
+        private static $sql_builder = '';
 
 		/** 
         * Connect to database
