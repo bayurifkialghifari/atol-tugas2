@@ -2,8 +2,6 @@
 	
 	namespace App\Liblaries;
 
-	use App\Core\Request;
-
 	Class Pagination
 	{
 		/**
