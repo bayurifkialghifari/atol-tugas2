@@ -364,8 +364,17 @@
                 $mail->Host             = self::get_host();                    
                 $mail->SMTPAuth         = true;                                   
                 $mail->Username         = self::get_username();                     
-                $mail->Password         = self::get_password();                           
-                $mail->SMTPSecure       = PHPMailer::ENCRYPTION_SMTPS; // 587; `PHPMailer::ENCRYPTION_STARTTLS`
+                $mail->Password         = self::get_password();
+
+                if(self::get_port() === 465)
+                {
+                    $mail->SMTPSecure   = PHPMailer::ENCRYPTION_SMTPS;
+                }
+                else
+                {
+                    $mail->SMTPSecure   = PHPMailer::ENCRYPTION_STARTTLS;
+                }
+
                 $mail->Port             = self::get_port();
 
                 /**
