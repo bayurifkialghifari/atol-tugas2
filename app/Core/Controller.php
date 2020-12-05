@@ -18,7 +18,7 @@
 
 		protected function get_all()
 		{
-			return Request::post_all();
+			return Request::get_all();
 		} 
 
 		protected function post_all()
@@ -39,5 +39,15 @@
 		protected function set_session($sess)
 		{
 			return Request::set_session($sess);
+		}
+
+		protected function unset_session($sess)
+		{
+			return Request::unset_session($sess);
+		}
+
+		protected function destroy_session()
+		{
+			return Request::destroy_session();
 		}
 	}

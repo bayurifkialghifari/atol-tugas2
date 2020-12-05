@@ -22,7 +22,9 @@
 		*/
 		public function get($index)
 		{
-			return XssFilter::xss_clean(SqliFilter::sqli_clean($_GET[$index]));
+			parse_str(file_get_contents('php://input'), $get);
+			
+			return XssFilter::xss_clean(SqliFilter::sqli_clean($get[$index]));
 		}
 
 		/** 
@@ -40,7 +42,9 @@
 		*/
 		public function get_all()
 		{
-			return $_GET;
+			parse_str(file_get_contents('php://input'), $get);
+
+			return $get;
 		}
 
 		/** 
@@ -75,5 +79,37 @@
 			}
 
 			return $data;
+		}
+
+		/** 
+		* UNSET SESSION DATA
+		*
+		*/
+		public function unset_session($data = [])
+		{
+			if(is_array($data))
+			{
+				for($i = 0;$i < count($data); $i++)
+				{
+					unset($_SESSION[$data[$i]]);
+				}
+			}
+			else
+			{
+				unset($_SESSION[$data]);
+			}
+
+			return true;
+		}
+
+		/** 
+		* DESTROY SESSION DATA
+		*
+		*/
+		public function destroy_session()
+		{
+			session_destroy();
+
+			return true;
 		}
 	}

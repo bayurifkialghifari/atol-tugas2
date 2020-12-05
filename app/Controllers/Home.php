@@ -20,6 +20,8 @@
 			// parent::get('nama')
 			// parent::sess(nama)
 			// parent::set_session(array)
+			// parent::unset_session(array / string)
+			// parent::destroy_session()
 
 			$data['app_name'] = 'Welcome';
 
@@ -56,6 +58,7 @@
 			$model 	= new Faqs;
 			$exe 	= $model->select('*')->limit(1)->get();
 			$all 	= $model->all();
+
 			var_dump($exe);
 		}
 
