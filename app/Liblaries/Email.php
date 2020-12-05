@@ -366,14 +366,14 @@
                 $mail->Username         = self::get_username();                     
                 $mail->Password         = self::get_password();
 
-                if(self::get_port() === 465)
-                {
+                // if(self::get_port() === 465)
+                // {
                     $mail->SMTPSecure   = PHPMailer::ENCRYPTION_SMTPS;
-                }
-                else
-                {
-                    $mail->SMTPSecure   = PHPMailer::ENCRYPTION_STARTTLS;
-                }
+                // }
+                // else
+                // {
+                //     $mail->SMTPSecure   = PHPMailer::ENCRYPTION_STARTTLS;
+                // }
 
                 $mail->Port             = self::get_port();
 
