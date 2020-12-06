@@ -27,5 +27,6 @@
 
 	$app->add('/test_pagination', 'Home', 'pagination');
 	$app->add('/test_pagination_handler/:id', 'Home', 'pagination_handler');
+	$app->add('/test_auth', 'Home', 'auth', 'post');
 
 	$app->run('/');

@@ -3,10 +3,6 @@
 	namespace App\Controllers;
 
 	use App\Core\Controller;
-	use App\Liblaries\Email;
-	use App\Liblaries\Upload;
-	use App\Liblaries\Pagination;
-	use App\Models\Faqs;
 
 	Class Home extends Controller
 	{

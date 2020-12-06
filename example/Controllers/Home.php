@@ -92,9 +92,10 @@
 			Auth::table('users');
 			Auth::user_field('email');
 			Auth::password_field('password');
-
-			Auth::login('ggwp@ggwp.com', '123456');
 			
-			Auth::logout();
+			Auth::login('test@gmail.com', '123456');
+
+			var_dump(parent::sess('status'));
+			// Auth::logout();
 		}
 	}

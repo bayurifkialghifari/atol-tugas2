@@ -121,7 +121,7 @@
 
         	$cek_auth 					= $auth->select(' a.* ')
 								        	 	->from(" {$table} a ")
-								        	 	->where(" a.{$user_field} ")
+								        	 	->where(" a.{$user_field} ", $username)
 								        	 	->get();
 
 			$count_auth 				= $cek_auth->num_rows;
@@ -142,10 +142,10 @@
 					/* Set session auth */
 					foreach($cek_auth as $name => $value)
 					{
-						Request::set_session([$name => $value])
+						Request::set_session([$name => $value]);
 					}
 
-					Request::set_session(['status' => true])
+					Request::set_session(['status' => true]);
 
 					/* Return data auth */
 					return array(

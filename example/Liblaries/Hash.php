@@ -10,7 +10,7 @@
         * Hash prefix
         *
         */
-		private static $hash_prefix = '$2y$10$';
+		private static $hash_prefix = '$2a$10$';
 
 		/**
         * @var
@@ -50,6 +50,6 @@
         */
 		public function hash_check($password,$hashed_password)
 		{
-			return password_verify($password, self::$hash_prefix . $hashed_password);
+			return password_verify($password, $hashed_password);
 		}		
 	}
