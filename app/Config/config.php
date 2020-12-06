@@ -1,5 +1,5 @@
 <?php
 
-	const base_url 			= 'http://localhost/GudFramework-psr4/';
+	const base_url 			= 'Your url directory';
 	
 	// Tambahin ajah
