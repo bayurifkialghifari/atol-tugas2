@@ -16,7 +16,7 @@
 			{
 				if($_SESSION['status'] == true)
 				{
-					redirect(base_url . '/');			
+					redirect(base_url . logged_in_true);			
 				}
 			}
 		}
@@ -33,12 +33,12 @@
 			{
 				if($_SESSION['status'] != true)
 				{
-					redirect(base_url . 'login');			
+					redirect(base_url . logged_in_false);			
 				}
 			}
 			else
 			{
-				redirect(base_url . 'login');			
+				redirect(base_url . logged_in_false);			
 			}
 		}
 	}
