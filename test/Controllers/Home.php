@@ -5,6 +5,7 @@
 	use App\Core\Controller;
 	use App\Liblaries\Email;
 	use App\Liblaries\Upload;
+	use App\Liblaries\Auth;
 	use App\Liblaries\Pagination;
 	use App\Models\Faqs;
 
@@ -84,5 +85,16 @@
 			Pagination::href(base_url().'test_pagination_handler');
 			
 			echo Pagination::create_link(10, $id);
+		}
+
+		public function auth()
+		{
+			Auth::table('users');
+			Auth::user_field('email');
+			Auth::password_field('password');
+
+			Auth::login('ggwp@ggwp.com', '123456');
+			
+			Auth::logout();
 		}
 	}

@@ -16,7 +16,7 @@
 			{
 				if($_SESSION['status'] == true)
 				{
-					redirect(base_url . 'dashboard');			
+					redirect(base_url . '/');			
 				}
 			}
 		}
