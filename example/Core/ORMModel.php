@@ -291,9 +291,9 @@
         * And query database
         *
         */
-        public function and()
+        public function and($sql = '')
         {
-            self::$sql_builder      .= " AND ";
+            self::$sql_builder      .= " AND {$sql} ";
 
             return $this;
         }
@@ -302,9 +302,9 @@
         * Or query database
         *
         */
-        public function or()
+        public function or($sql = '')
         {
-            self::$sql_builder      .= " OR ";
+            self::$sql_builder      .= " OR {$sql} ";
 
             return $this;
         }
@@ -329,5 +329,21 @@
             $exe                    = self::connect()->query(self::$sql_builder);
 
             return $exe;
+        }
+
+        /** 
+        * Result array query database
+        *
+        */
+        public function result_array($exe)
+        {
+            $result_array = [];
+
+            while ($row = $exe->fetch_assoc())
+            {
+                $result_array[] = $row;
+            }
+
+            return $result_array;
         }
     }

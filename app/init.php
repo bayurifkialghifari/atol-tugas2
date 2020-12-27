@@ -13,6 +13,7 @@
 
 
 	//Load Config and Helper
+	require 'Config/auth.php';
 	require 'Config/database.php';
 	require 'Config/config.php';
 	require 'Helper/url.php';
