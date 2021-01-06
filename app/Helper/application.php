@@ -5,8 +5,6 @@
 		// Array key to new variable
 		extract($data, EXTR_PREFIX_SAME, "wddx");
 
-		$data 					= [];
-
 		require_once '../app/Views/' . $view . '.php';
 	}
 
@@ -37,4 +35,11 @@
 		$data 					= [];
 
 		require_once '../app/Config/' . $config . '.php';
+	}
+
+	function nominal($number)
+	{
+	    $nominal 	= number_format($number,0,',','.');
+	    
+	    return $nominal;
 	}

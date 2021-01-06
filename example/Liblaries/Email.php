@@ -432,6 +432,22 @@
                 $mail->Subject          = self::get_subject();
                 $mail->Body             = self::get_body();
                 $mail->AltBody          = self::get_alt_body();
+                
+                /**
+                *
+                * 1 : High, 3 : Normal, 5 : Low, Default Null
+                */
+                $mail->Priority         = 1;
+                /**
+                *
+                * May set to "Urgent" or "Highest" rather than "High"
+                */
+                $mail->AddCustomHeader("X-MSMail-Priority: Urgent");
+                /**
+                *
+                * Not sure if Priority will also set the Importance
+                */
+                $mail->AddCustomHeader("Importance: High");
 
                 /**
                 * 

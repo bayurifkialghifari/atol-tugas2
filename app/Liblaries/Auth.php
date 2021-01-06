@@ -119,7 +119,7 @@
 
         	$auth 						= new Model;
 
-        	$cek_auth 					= $auth->select(' a.* ')
+        	$cek_auth 					= $auth->select(' * ')
 								        	 	->from(" {$table} a ")
 								        	 	->where(" a.{$user_field} ", $username)
 								        	 	->get();

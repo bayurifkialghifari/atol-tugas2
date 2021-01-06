@@ -83,9 +83,10 @@
                 array_push($where,$f."="."'".$r."'");
             }
 
-            $where          = implode(',',$where);
+            $where          = implode(' AND ',$where);
 
     		$sql 			= " SELECT * FROM ". self::getTableName() ." WHERE {$where} ";
+            
             $exe            = self::connect()->query($sql);
 
             return $exe;

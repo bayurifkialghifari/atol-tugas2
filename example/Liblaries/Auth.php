@@ -1,37 +1,37 @@
 <?php 
-    
-    namespace App\Liblaries;
+	
+	namespace App\Liblaries;
 
-    use App\Core\Model;
-    use App\Core\Request;
-    use App\Liblaries\Hash;
-    use App\Liblaries\Sesion;
+	use App\Core\Model;
+	use App\Core\Request;
+	use App\Liblaries\Hash;
+	use App\Liblaries\Sesion;
 
-    Class Auth
-    {
-        /**
+	Class Auth
+	{
+		/**
         * @param
         *
         * Table auth
         *
         */
-        private static $table           = 'users';
+        private static $table 			= 'users';
 
-        /**
+		/**
         * @param
         *
         * Field username auth
         *
         */
-        private static $user_field      = 'email';
+		private static $user_field 		= 'email';
 
-        /**
+		/**
         * @param
         *
         * Field password auth
         *
         */
-        private static $password_field  = 'password';
+        private static $password_field 	= 'password';
 
         /**
         * @param
@@ -41,7 +41,7 @@
         */
         public function table($table)
         {
-            self::$table                = $table;
+        	self::$table 				= $table;
         }
 
         /**
@@ -52,7 +52,7 @@
         */
         public function user_field($user_field)
         {
-            self::$user_field           = $user_field;
+        	self::$user_field 			= $user_field;
         }
 
         /**
@@ -63,7 +63,7 @@
         */
         public function password_field($password_field)
         {
-            self::$password_field       = $password_field;
+        	self::$password_field 		= $password_field;
         }
 
         /**
@@ -107,69 +107,69 @@
         */
         public function login($username, $password, $config = array())
         {
-            /**
-            * @param
-            *
-            * Auth parameter check
-            *
-            */
-            $table                      = (isset($config['table']))         ? $config['table']          : self::get_table();
-            $user_field                 = (isset($config['user_field']))    ? $config['user_field']     : self::get_user_field();
-            $password_field             = (isset($config['password_field']))? $config['password_field'] : self::get_password_field();
+        	/**
+	        * @param
+	        *
+	        * Auth parameter check
+	        *
+	        */
+			$table 						= (isset($config['table'])) 		? $config['table'] 			: self::get_table();
+			$user_field 				= (isset($config['user_field'])) 	? $config['user_field'] 	: self::get_user_field();
+			$password_field 			= (isset($config['password_field']))? $config['password_field'] : self::get_password_field();
 
-            $auth                       = new Model;
+        	$auth 						= new Model;
 
-            $cek_auth                   = $auth->select(' a.* ')
-                                                ->from(" {$table} a ")
-                                                ->where(" a.{$user_field} ", $username)
-                                                ->get();
+        	$cek_auth 					= $auth->select(' * ')
+								        	 	->from(" {$table} a ")
+								        	 	->where(" a.{$user_field} ", $username)
+								        	 	->get();
 
-            $count_auth                 = $cek_auth->num_rows;
+			$count_auth 				= $cek_auth->num_rows;
 
-            /* If username exsist */
-            if($count_auth > 0)
-            {
-                /*
-                    Fetch assoc
-                */
-                $cek_auth               = $cek_auth->fetch_assoc();
+			/* If username exsist */
+			if($count_auth > 0)
+			{
+				/*
+					Fetch assoc
+				*/
+				$cek_auth 				= $cek_auth->fetch_assoc();
 
-                $cek_hash               = Hash::hash_check($password, $cek_auth[$password_field]);
+				$cek_hash 				= Hash::hash_check($password, $cek_auth[$password_field]);
 
-                /* If password true */
-                if($cek_hash > 0)
-                {
-                    /* Set session auth */
-                    foreach($cek_auth as $name => $value)
-                    {
-                        Request::set_session([$name => $value]);
-                    }
+				/* If password true */
+				if($cek_hash > 0)
+				{
+					/* Set session auth */
+					foreach($cek_auth as $name => $value)
+					{
+						Request::set_session([$name => $value]);
+					}
 
-                    Request::set_session(['status' => true]);
+					Request::set_session(['status' => true]);
 
-                    /* Return data auth */
-                    return array(
-                        'status'    => 1,
-                        'data'      => $cek_auth,
-                    );
-                }
-                /* If password false */
-                else
-                {
-                    return array(
-                        'status'    => 0,
-                        'message'   => 'Password salah',
-                    );      
-                }
-            }
-            /* If username not exsist */
-            else
-            {
-                return array(
-                    'status'        => 0,
-                    'message'       => 'Username tidak ada',
-                );
-            }
+					/* Return data auth */
+					return array(
+						'status' 	=> 1,
+						'data' 		=> $cek_auth,
+					);
+				}
+				/* If password false */
+				else
+				{
+					return array(
+						'status' 	=> 0,
+						'message' 	=> 'Password salah',
+					);		
+				}
+			}
+			/* If username not exsist */
+			else
+			{
+				return array(
+					'status' 		=> 0,
+					'message' 		=> 'Username tidak ada',
+				);
+			}
         }
 
         /**
@@ -180,18 +180,18 @@
         */
         public function register($data, $config = array())
         {
-            /**
-            * @param
-            *
-            * Auth parameter check
-            *
-            */
-            $table                      = (isset($config['table']))         ? $config['table']          : self::get_table();
-            
-            $auth                       = new Model;
-            $register                   = $auth->store($table, $data);
+        	/**
+	        * @param
+	        *
+	        * Auth parameter check
+	        *
+	        */
+        	$table 						= (isset($config['table'])) 		? $config['table'] 			: self::get_table();
+ 			
+ 			$auth 						= new Model;
+ 			$register 					= $auth->store($table, $data);
 
-            return $register;
+ 			return $register;
         }
 
         /**
@@ -202,7 +202,7 @@
         */
         public function check_login()
         {
-            return Sesion::cekLogin();
+        	return Sesion::cekLogin();
         }
 
         /**
@@ -213,7 +213,7 @@
         */
         public function check_not_login()
         {
-            return Sesion::cekBelum();
+        	return Sesion::cekBelum();
         }
 
         /**
@@ -224,6 +224,6 @@
         */
         public function logout()
         {
-            return Request::destroy_session();
+        	return Request::destroy_session();
         }
-    }
+	}

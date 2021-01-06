@@ -10,7 +10,8 @@
         * Pagination parameter
         *
         */
-		private static $href;
+        private static $href;
+		private static $page_now     = 0;
 		private static $open_attr;
 		private static $close_attr;
 		private static $link_attr;
@@ -34,6 +35,18 @@
         {
         	self::$href 		= $href;
         }
+
+        /**
+        * @var
+        *
+        * Set page_now
+        *
+        */
+        public function page_now($page_now)
+        {
+            self::$page_now      = $page_now;
+        }
+
 		
 		/**
         * @var
@@ -154,6 +167,16 @@
         public function get_href()
         {
         	return self::$href;
+        }
+
+        /**
+        *
+        * Get page_now
+        *
+        */
+        public function get_page_now()
+        {
+            return self::$page_now;
         }
 
         /**
@@ -290,6 +313,7 @@
 	        *
 	        */
 	        $href 			= (isset($config['href'])) 			? $config['href'] 		    : self::get_href();
+            $page_now       = (isset($config['page_now']))      ? $config['page_now']       : self::get_page_now();
             $anchor_class   = (isset($config['anchor_class']))  ? $config['anchor_class']   : self::get_anchor_class();
             $ul_class       = (isset($config['ul_class']))      ? $config['ul_class']       : self::get_ul_class();
             $li_class       = (isset($config['li_class']))      ? $config['li_class']       : self::get_li_class();
@@ -300,15 +324,14 @@
 	        $open_attr 		= (isset($config['open_attr'])) 	? $config['open_attr'] 	    : self::get_open_attr();
 	        $close_attr 	= (isset($config['close_attr'])) 	? $config['close_attr']     : self::get_close_attr();
 	        $link_attr 		= (isset($config['link_attr'])) 	? $config['link_attr'] 	    : self::get_link_attr();
-            $link           = '';
+            $link           = "<ul class='{$ul_class}'>";
 
-            if($previous_btn === true)
+            if($previous_btn === true AND $page_now > 1)
             {
                 if($page > 1)
                 {
-                    $previous_href  = $page - 1;
+                    $previous_href  = $page_now - 1;
         			$link 			.= "
-                                        <ul class='{$ul_class}'>
                                             <li class='{$li_class}'>
                                                 <a 
                                                     class='{$anchor_class}'
@@ -321,6 +344,14 @@
 
 			for($i = 1;$i <= $pages;$i ++)
 			{
+                $active         = '';
+
+                if($page_now == $i) 
+                { 
+                    $active     = 'active'; 
+                }
+
+
 				/**
 		        * @var
 		        *
@@ -329,7 +360,7 @@
 		        */
 				$link 	        .= "
                                     {$open_attr}
-                                        <li class='{$li_class}'>
+                                        <li class='{$li_class} {$active}'>
     								        <a 
             									class='{$anchor_class}' 
             									href='{$href}/{$i}'
@@ -342,11 +373,11 @@
 
 			}
 
-            if($next_btn === true)
+            if($next_btn === true AND $page_now < $pages)
             {
                 if($page < $pages)
                 {
-                    $next_href      = $page + 1;
+                    $next_href      = $page_now + 1;
                     $link           .= "
                                             <li class='{$li_class}'>
                                                 <a 
@@ -354,10 +385,11 @@
                                                     href='{$href}/{$next_href}'>
                                                     {$next_html}
                                                 </a>
-                                            </li>
-                                        </ul>";
+                                            </li>";
                 }
             }
+
+            $link           .= "</ul>";
 
 			return $link;
 		}
