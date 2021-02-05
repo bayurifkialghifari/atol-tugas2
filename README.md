@@ -1,5 +1,9 @@
 # GUD-FRAMEWORK-PHP
 
+- Composer
+
+``composer create-project "gud/framework:dev-master"``
+
 - Installation
 
 1. Download
