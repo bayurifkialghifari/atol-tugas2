@@ -1,11 +1,17 @@
 <?php
+	
+	use eftec\bladeone\BladeOne;
 
 	function view($view, $data = [])
 	{
-		// Array key to new variable
-		extract($data, EXTR_PREFIX_SAME, "wddx");
+		// Views folder
+		$views 					= VIEW_PATH;
+		// Cache folder
+		$cache 					= CACHE_PATH;
 
-		require_once '../app/Views/' . $view . '.php';
+		$blade 					= new BladeOne($views, $cache, BladeOne::MODE_DEBUG);
+
+		echo $blade->run($view, $data);
 	}
 
 	function view_html_only($view, $data = [])
@@ -42,4 +48,9 @@
 	    $nominal 	= number_format($number,0,',','.');
 	    
 	    return $nominal;
+	}
+
+	function alert($message)
+	{
+		echo "<script>alert('{$message}')</script>";
 	}

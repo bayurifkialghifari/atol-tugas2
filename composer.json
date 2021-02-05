@@ -3,7 +3,8 @@
     "description": "The Gud PHP framework",
     "require": {
         "php": ">=5.6",
-        "phpmailer/phpmailer": "^6.2"
+        "phpmailer/phpmailer": "^6.2",
+        "eftec/bladeone": "^3.49"
     },
     "license": "MIT",
     "authors": [

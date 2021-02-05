@@ -5,6 +5,10 @@
 	
 	// SESSION GGWP
 	session_start();
+
+	const APP_PATH 		= __DIR__;
+	const VIEW_PATH 	= APP_PATH . '\Views\\';
+	const CACHE_PATH 	= APP_PATH . '\Cache\\';
 	
 	// AUTOLOAD GGWP
 	require_once '../vendor/autoload.php';
