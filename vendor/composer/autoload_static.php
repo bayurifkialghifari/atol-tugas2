@@ -15,6 +15,10 @@ class ComposerStaticInitae87c0fd233a3cc25ef3878e4bc22325
         array (
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'C' => 
+        array (
+            'Cocur\\Slugify\\' => 14,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -29,6 +33,10 @@ class ComposerStaticInitae87c0fd233a3cc25ef3878e4bc22325
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Cocur\\Slugify\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cocur/slugify/src',
         ),
         'App\\' => 
         array (

@@ -4,7 +4,8 @@
     "require": {
         "php": ">=5.6",
         "phpmailer/phpmailer": "^6.2",
-        "eftec/bladeone": "^3.49"
+        "eftec/bladeone": "^3.49",
+        "cocur/slugify": "^4.0"
     },
     "license": "MIT",
     "authors": [

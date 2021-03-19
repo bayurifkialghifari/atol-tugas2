@@ -19,11 +19,20 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'a26d40676f73ddd744b85dff8c35ab6b24247cf0',
+    'reference' => '73acb3588081a317cf0ca9bcd2b03da175d7a32c',
     'name' => 'gud/framework',
   ),
   'versions' => 
   array (
+    'cocur/slugify' => 
+    array (
+      'pretty_version' => 'v4.0.0',
+      'version' => '4.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '3f1ffc300f164f23abe8b64ffb3f92d35cec8307',
+    ),
     'eftec/bladeone' => 
     array (
       'pretty_version' => '3.49.1',
@@ -40,7 +49,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'a26d40676f73ddd744b85dff8c35ab6b24247cf0',
+      'reference' => '73acb3588081a317cf0ca9bcd2b03da175d7a32c',
     ),
     'phpmailer/phpmailer' => 
     array (
