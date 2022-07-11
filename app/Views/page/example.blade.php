@@ -49,7 +49,5 @@
 @endsection
 
 @push('scripts')
-    <script>
-        alert('gggwp')
-    </script>
+    <script></script>
 @endpush

@@ -47,10 +47,9 @@
 
  </div> <!-- .container-fluid -->
 <?php $this->stopSection(); ?>
+
 <?php $this->startPush('scripts'); ?>
- <script>
- alert('gggwp')
- </script>
+ <script></script>
 <?php $this->stopPush(); ?>
 
 <?php if (isset($_shouldextend[1])) { echo $this->runChild('layouts.plain'); } ?>
