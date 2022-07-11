@@ -12,7 +12,7 @@
 		$blade 					= new BladeOne($views, $cache, BladeOne::MODE_DEBUG);
 
 		// Replace /\
-		$view 					= str_replace('/', '\\', $view);
+		$view 					= str_replace('\\', '/', $view);
 
 		echo $blade->run($view, $data);
 	}
