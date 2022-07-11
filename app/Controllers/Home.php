@@ -21,6 +21,6 @@
 
 			$data['app_name'] = 'Welcome';
 
-			view('home', $data);
+			view('layouts.plain', $data);
 		}
 	}
