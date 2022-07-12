@@ -3,22 +3,15 @@
 	namespace App\Controllers;
 
 	use App\Core\Controller;
+	use App\Liblaries\Sesion;
 
 	Class Home extends Controller
 	{
-		public function index()
-		{
-			// view() untuk load view
-			// parent::post('nama')
-			// parent::all()
-			// parent::post_all()
-			// parent::get_all()
-			// parent::get('nama')
-			// parent::sess(nama)
-			// parent::set_session(array)
-			// parent::unset_session(array / string)
-			// parent::destroy_session()
+		public function __construct() {
+			Sesion::cekBelum();
+		}
 
+		public function index() {
 			$data['app_name'] = 'Welcome';
 
 			view('page.example', $data);

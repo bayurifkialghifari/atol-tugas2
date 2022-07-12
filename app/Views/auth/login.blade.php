@@ -27,17 +27,16 @@
 
 
     <div class="container" id="login-form">
-        <a href="index.html" class="login-logo"><img
-                src="{{ base_url }}assets/template/assets/img/logo-big.png"></a>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2>Login Form</h2>
-                    </div>
-                    <div class="panel-body">
-
-                        <form action="" class="form-horizontal" id="validate-form">
+        <form class="form-horizontal" id="validate-form">
+            <a href="index.html" class="login-logo"><img
+                    src="{{ base_url }}assets/template/assets/img/logo-big.png"></a>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2>Login Form</h2>
+                        </div>
+                        <div class="panel-body">
                             <div class="form-group mb-md">
                                 <div class="col-xs-12">
                                     <div class="input-group">
@@ -73,17 +72,17 @@
                                     </div>
                                 </div>
                             </div> --}}
-                        </form>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="clearfix">
-                            {{-- <a href="extras-registration.html" class="btn btn-default pull-left">Register</a> --}}
-                            <a href="extras-login.html" class="btn btn-primary pull-right">Login</a>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="clearfix">
+                                {{-- <a href="extras-registration.html" class="btn btn-default pull-left">Register</a> --}}
+                                <button type="submit" class="btn btn-primary pull-right">Login</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
 
@@ -112,12 +111,40 @@
 
     <script type="text/javascript"
         src="{{ base_url }}assets/template/assets/plugins/nanoScroller/js/jquery.nanoscroller.min.js"></script> <!-- nano scroller -->
-
     <script type="text/javascript" src="{{ base_url }}assets/template/assets/js/application.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- End loading site level scripts -->
     <!-- Load page level scripts-->
+    <script>
+        $('#validate-form').submit(ev => {
+            ev.preventDefault()
 
+            let email = $('#email').val()
+            let password = $('#password').val()
+
+            $.ajax({
+                method: 'post',
+                url: '{{ base_url }}doLogin',
+                data: {
+                    email: email,
+                    password: password
+                },
+                success(data) {
+                    data = JSON.parse(data)
+                    if (data.status > 0) {
+                        toastr.success(`Selamat datang ${data.data.name}`, 'Login Success')
+
+                        setTimeout(() => {
+                            location.href = '{{ base_url }}'
+                        }, 1000);
+                    } else {
+                        toastr.warning(data.message, 'Login Failure')
+                    }
+                }
+            })
+        })
+    </script>
 
     <!-- End loading page level scripts-->
 </body>

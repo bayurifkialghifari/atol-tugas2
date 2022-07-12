@@ -18,5 +18,6 @@
 	// Router
 	$app->add('/', '\Home');
 	$app->add('/login', '\Auth\Login');
+	$app->add('/doLogin', '\Auth\Login', 'doLogin', 'post');
 
 	$app->run('/');
