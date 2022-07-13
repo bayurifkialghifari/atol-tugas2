@@ -21,6 +21,16 @@
 	$app->add('/barang/update', '\Barang', 'update', 'post');
 	$app->add('/barang/delete', '\Barang', 'delete', 'post');
 
+	$app->add('/belanja', '\Belanja');
+	$app->add('/belanja/insert', '\Belanja', 'insert', 'post');
+	$app->add('/belanja/update', '\Belanja', 'update', 'post');
+	$app->add('/belanja/delete', '\Belanja', 'delete', 'post');
+
+	$app->add('/user', '\User');
+	$app->add('/user/insert', '\User', 'insert', 'post');
+	$app->add('/user/update', '\User', 'update', 'post');
+	$app->add('/user/delete', '\User', 'delete', 'post');
+
 	// Auth
 	$app->add('/login', '\Auth\Login');
 	$app->add('/doLogin', '\Auth\Login', 'doLogin', 'post');
