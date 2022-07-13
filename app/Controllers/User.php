@@ -6,6 +6,7 @@
 	use App\Liblaries\Sesion;
     use App\Liblaries\Hash;
 	use App\Models\User as Users;
+	use App\Models\Role;
 	use App\Core\Request;
 
 	Class User extends Controller
@@ -16,14 +17,18 @@
 
 		public function index() {
 			$user = new Users;
+			$role = new Role;
 			$request = new Request;
 
-			$get = $user->all();
+			$get = $user->select('user.*, role.nama as role_name')
+			->join('role', 'role.id', 'user.role_id')
+			->get();
 
 			// if Search
 			if($request->get('search')) {
 				$search = $request->get('search');
 				$get = $user->select('*')
+				->join('role', 'role.id', 'user.role_id')
 				->raw(" 
 					WHERE email LIKE '%{$search}%' 
 					OR name LIKE '%{$search}%'
@@ -34,6 +39,7 @@
 			}
 
 			$data['title'] = 'User';
+			$data['role'] = $role->result_array($role->all());
 			$data['data'] = $user->result_array($get);
 
 			view('page.user', $data);

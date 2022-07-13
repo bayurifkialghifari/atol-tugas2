@@ -21,10 +21,10 @@
 	$app->add('/barang/update', '\Barang', 'update', 'post');
 	$app->add('/barang/delete', '\Barang', 'delete', 'post');
 
-	$app->add('/belanja', '\Belanja');
-	$app->add('/belanja/insert', '\Belanja', 'insert', 'post');
-	$app->add('/belanja/update', '\Belanja', 'update', 'post');
-	$app->add('/belanja/delete', '\Belanja', 'delete', 'post');
+	$app->add('/role', '\Role');
+	$app->add('/role/insert', '\Role', 'insert', 'post');
+	$app->add('/role/update', '\Role', 'update', 'post');
+	$app->add('/role/delete', '\Role', 'delete', 'post');
 
 	$app->add('/user', '\User');
 	$app->add('/user/insert', '\User', 'insert', 'post');
