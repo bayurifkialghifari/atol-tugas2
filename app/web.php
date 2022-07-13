@@ -16,8 +16,12 @@
 	*/
 
 	// Router
-	$app->add('/', '\Home');
+	$app->add('/', '\Barang');
+	$app->add('/ggwp', '\Barang');
+
+	// Auth
 	$app->add('/login', '\Auth\Login');
 	$app->add('/doLogin', '\Auth\Login', 'doLogin', 'post');
+	$app->add('/logout', '\Auth\Login', 'logout');
 
 	$app->run('/');

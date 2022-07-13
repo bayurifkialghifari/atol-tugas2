@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Avenxo Admin Theme - shared on themelock.com</title>
+    <title>Atol Tugas 2 | {{ isset($title) ? $title : 'Home' }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -29,10 +29,10 @@
     <![endif]-->
     <!-- The following CSS are included as plugins and can be removed if unused-->
 
-    <link type="text/css" href="{{ base_url }}assets/template/assets/plugins/datatables/dataTables.bootstrap.css"
+    {{-- <link type="text/css" href="{{ base_url }}assets/template/assets/plugins/datatables/dataTables.bootstrap.css"
         rel="stylesheet">
     <link type="text/css" href="{{ base_url }}assets/template/assets/plugins/datatables/dataTables.themify.css"
-        rel="stylesheet">
+        rel="stylesheet"> --}}
 
 </head>
 
@@ -75,7 +75,8 @@
                     <li><a href="#/"><i class="ti ti-view-list-alt"></i><span>Statement</span></a></li>
                     <li><a href="#/"><i class="ti ti-money"></i><span>Withdrawals</span></a></li>
                     <li class="divider"></li> --}}
-                    <li><a href="#/"><i class="ti ti-shift-right"></i><span>Sign Out</span></a></li>
+                    <li><a href="{{ base_url }}logout"><i class="ti ti-shift-right"></i><span>Sign Out</span></a>
+                    </li>
                 </ul>
             </li>
 
@@ -161,11 +162,11 @@
 
     <!-- Load page level scripts-->
 
-    <script type="text/javascript" src="{{ base_url }}assets/template/assets/plugins/datatables/jquery.dataTables.js">
+    {{-- <script type="text/javascript" src="{{ base_url }}assets/template/assets/plugins/datatables/jquery.dataTables.js">
     </script>
     <script type="text/javascript"
         src="{{ base_url }}assets/template/assets/plugins/datatables/dataTables.bootstrap.js"></script>
-    <script type="text/javascript" src="{{ base_url }}assets/template/assets/demo/demo-datatables.js"></script>
+    <script type="text/javascript" src="{{ base_url }}assets/template/assets/demo/demo-datatables.js"></script> --}}
 
     <!-- End loading page level scripts-->
     @stack('scripts')

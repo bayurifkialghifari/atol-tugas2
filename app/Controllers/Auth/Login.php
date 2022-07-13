@@ -37,4 +37,10 @@
 		
 			echo json_encode($exe);
 		}
+
+		public function logout() {
+			Auth::logout();
+
+			redirect_back();
+		}
 	}

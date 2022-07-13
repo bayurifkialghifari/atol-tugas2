@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Login Form</title>
+    <title>Atol Tugas 2</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -28,8 +28,7 @@
 
     <div class="container" id="login-form">
         <form class="form-horizontal" id="validate-form">
-            <a href="index.html" class="login-logo"><img
-                    src="{{ base_url }}assets/template/assets/img/logo-big.png"></a>
+            <a href="#" class="login-logo">Atol Tugas 2</a>
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <div class="panel panel-default">
