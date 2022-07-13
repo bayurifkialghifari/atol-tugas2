@@ -17,7 +17,9 @@
 
 	// Router
 	$app->add('/', '\Barang');
-	$app->add('/ggwp', '\Barang');
+	$app->add('/barang/insert', '\Barang', 'insert', 'post');
+	$app->add('/barang/update', '\Barang', 'update', 'post');
+	$app->add('/barang/delete', '\Barang', 'delete', 'post');
 
 	// Auth
 	$app->add('/login', '\Auth\Login');

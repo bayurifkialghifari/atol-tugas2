@@ -17,18 +17,68 @@
 			$barang = new Barangs;
 			$request = new Request;
 
-			$data['title'] = 'Barang';
-			$data['data'] = $barang->result_array(
-				$barang->select('barang.*, user.name as username')
-				->join('user', 'user.id', 'barang.user_id')
-				->get()
-			);
-			
+			$get = $barang->select('barang.*, user.name as username')
+			->join('user', 'user.id', 'barang.user_id')
+			->get();
 
-			var_dump($request->get('qwe'));
-			exit;
-		
+			// if Search
+			if($request->get('search')) {
+				$search = $request->get('search');
+				$get = $barang->select('barang.*, user.name as username')
+				->join('user', 'user.id', 'barang.user_id')
+				->raw(" 
+					WHERE user.name LIKE '%{$search}%' 
+					OR nama LIKE '%{$search}%'
+					OR harga LIKE '%{$search}%'
+					OR stok LIKE '%{$search}%'
+				")
+				->get();
+
+				$data['search'] = $search;
+			}
+
+			$data['title'] = 'Barang';
+			$data['data'] = $barang->result_array($get);
 
 			view('page.barang', $data);
+		}
+
+		public function insert() {
+			$barang = new Barangs;
+			$request = new Request;
+
+			// Get data post
+			$data = $request->post_all();
+			$data['user_id'] = $request->sess('id');
+			unset($data['id']);
+
+			// Create data
+			$exe = $barang->create($data);
+
+			echo json_encode($exe);
+		}
+
+		public function update() {
+			$barang = new Barangs;
+			$request = new Request;	
+
+			// Get data post
+			$data = $request->post_all();
+			$data['user_id'] = $request->sess('id');
+
+			// Update data
+			$exe = $barang->update(['id' => $data['id']], $data);
+
+			echo json_encode($exe);
+		}
+
+		public function delete() {
+			$barang = new Barangs;
+			$request = new Request;	
+
+			// Delete data
+			$exe = $barang->delete(['id' => $request->post('id')]);
+
+			echo json_encode($exe);
 		}
 	}

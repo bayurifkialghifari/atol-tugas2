@@ -16,13 +16,28 @@
                             <div class="panel-ctrls"></div>
                         </div>
                         <div class="panel-body">
-                            <div class="text-right">
-                                <button class="btn btn-success btn-sm" id="addBtn">
-                                    <i class="fa fa-plus"></i> Create
-                                </button>
-                                <br><br>
-                            </div>
-
+                            <form action="{{ base_url }}" method="get">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input type="search" placeholder="Search ......" name="search"
+                                                value="{{ isset($search) ? $search : '' }}" class="form-control">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <span class="fa fa-search" aria-hidden="true">
+                                                    </span> Search
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <button class="btn btn-success btn-md" type="button" role="button" id="addBtn">
+                                            <i class="fa fa-plus"></i> Create
+                                        </button>
+                                    </div>
+                                </div>
+                                <br>
+                            </form>
                             {{-- id="example" --}}
                             <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
@@ -43,10 +58,12 @@
                                                 <td>{{ $d['harga'] }}</td>
                                                 <td>{{ $d['stok'] }}</td>
                                                 <td>
-                                                    <button class="btn btn-danger btn-sm">
+                                                    <button class="btn btn-danger btn-sm"
+                                                        onclick="destroy(`{{ $d['id'] }}`)">
                                                         <i class="fa fa-trash-o"></i> Delete
                                                     </button>
-                                                    <button class="btn btn-primary btn-sm">
+                                                    <button class="btn btn-primary btn-sm"
+                                                        onclick="update(`{{ $d['id'] }}`, `{{ $d['nama'] }}`, `{{ $d['harga'] }}`, `{{ $d['stok'] }}` )">
                                                         <i class="fa fa-pencil"></i> Update
                                                     </button>
                                                 </td>
@@ -84,7 +101,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="nama"> Nama</label>
-                                    <input type="text" class="form-control" id="nama" placeholder="Nama" required />
+                                    <input type="text" class="form-control" name="nama" placeholder="Nama" required />
                                 </div>
                             </div>
                         </div>
@@ -92,7 +109,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="nama"> Harga</label>
-                                    <input type="number" class="form-control" id="harga" placeholder="Harga"
+                                    <input type="number" class="form-control" name="harga" placeholder="Harga"
                                         required />
                                 </div>
                             </div>
@@ -101,15 +118,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="nama"> Stok</label>
-                                    <input type="number" class="form-control" id="stok" placeholder="Stok" required />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="nama"> Description</label>
-                                    <textarea class="form-control" id="description" placeholder="Description" rows="3" required></textarea>
+                                    <input type="number" class="form-control" name="stok" placeholder="Stok" required />
                                 </div>
                             </div>
                         </div>
@@ -131,10 +140,94 @@
 
 @push('scripts')
     <script>
+        let postType
+
+        // Delete function
+        let destroy = id => {
+
+            toastr.warning(
+                `<br />
+                <button type='button' id='confirmationButtonYes' class='btn btn-success'>Yes</button>
+                <button type='button' id='confirmationButtonNo' class='btn btn-danger'>No</button>`,
+                'Are you sure to delete this item ?', {
+                    closeButton: false,
+                    allowHtml: true,
+                    onShown: function(toast) {
+                        $("#confirmationButtonYes").click(() => {
+                            toastr.clear()
+
+                            $.ajax({
+                                url: '{{ base_url }}barang/delete',
+                                method: 'post',
+                                data: {
+                                    id: id,
+                                },
+                                success(data) {
+                                    toastr.success(
+                                        `Data berhasil dihapus`,
+                                        'Success')
+
+                                    setTimeout(() => {
+                                        location.reload()
+                                    }, 500)
+                                },
+                                error($xhr) {
+                                    toastr.warning($xhr.statusText, 'Failed')
+                                }
+                            })
+                        })
+
+                        $('#confirmationButtonNo').click(() => {
+                            toastr.clear()
+                        })
+                    }
+                })
+        }
+
+        // Update button click
+        let update = (id, nama, harga, stok) => {
+            postType = 'update'
+            $('#id').val(id)
+            $('input[name="nama"]').val(nama)
+            $('input[name="harga"]').val(harga)
+            $('input[name="stok"]').val(stok)
+            $('#myModalLabel').html('Update {{ $title }}')
+            $('#myModal').modal('show')
+        }
+
         $(() => {
+            // Add button click
             $('#addBtn').click(() => {
+                postType = 'create'
                 $('#myModalLabel').html('Create {{ $title }}')
                 $('#myModal').modal('show')
+            })
+
+            // Form Submit
+            $('#form').submit(ev => {
+                ev.preventDefault()
+
+                let url = postType == 'create' ?
+                    '{{ base_url }}barang/insert' :
+                    '{{ base_url }}barang/update';
+
+                $.ajax({
+                    url: url,
+                    method: 'post',
+                    data: $('#form').serialize(),
+                    success(data) {
+                        toastr.success(
+                            `Data berhasil ${postType == 'create' ? 'dibuat' : 'diubah'}`,
+                            'Success')
+
+                        setTimeout(() => {
+                            location.reload()
+                        }, 500)
+                    },
+                    error($xhr) {
+                        toastr.warning($xhr.statusText, 'Failed')
+                    }
+                })
             })
         })
     </script>

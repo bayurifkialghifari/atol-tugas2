@@ -1,3 +1,8 @@
+@php
+use App\Core\Request;
+
+$request = new Request();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,7 +68,8 @@
 
             <li class="dropdown toolbar-icon-bg">
                 <a href="#" class="dropdown-toggle username" data-toggle="dropdown">
-                    <img class="img-circle" src="http://via.placeholder.com/300&text=GGWP" alt="" />
+                    <img class="img-circle" src="http://via.placeholder.com/300&text={{ $request->sess('name') }}"
+                        alt="" />
                 </a>
                 <ul class="dropdown-menu userinfo arrow">
                     {{-- <li><a href="#/"><i class="ti ti-user"></i><span>Profile</span><span
@@ -93,12 +99,12 @@
                             <div class="widget-body">
                                 <div class="userinfo">
                                     <div class="avatar">
-                                        <img src="http://via.placeholder.com/300&text=GGWP"
+                                        <img src="http://via.placeholder.com/300&text={{ $request->sess('name') }}"
                                             class="img-responsive img-circle">
                                     </div>
                                     <div class="info">
-                                        <span class="username">Jonathan Smith</span>
-                                        <span class="useremail">jon@avenxo.com</span>
+                                        <span class="username">{{ $request->sess('name') }}</span>
+                                        <span class="useremail">{{ $request->sess('email') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -156,6 +162,8 @@
         src="{{ base_url }}assets/template/assets/plugins/nanoScroller/js/jquery.nanoscroller.min.js"></script> <!-- nano scroller -->
 
     <script type="text/javascript" src="{{ base_url }}assets/template/assets/js/application.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
     <!-- End loading site level scripts -->
