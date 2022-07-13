@@ -53,10 +53,6 @@ $request = new Request();
                     </span>
                 </a>
             </span>
-
-            <a class="navbar-brand" href="index.html">Avenxo</a>
-
-
         </div><!-- logo-area -->
 
         <ul class="nav navbar-nav toolbar pull-right">

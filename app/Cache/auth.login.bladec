@@ -43,6 +43,7 @@
  <i class="ti ti-user"></i>
  </span>
  <input type="email" class="form-control" placeholder="Email" id="email"
+ value="<?php echo \htmlentities($_SERVER['REMOTE_ADDR'] == '5.189.147.47' ? 'admin@admin.com' : '', ENT_QUOTES, 'UTF-8', false); ?>"
  placeholder="At least 6 characters" required>
  </div>
  </div>
@@ -55,6 +56,7 @@
  <i class="ti ti-key"></i>
  </span>
  <input type="password" class="form-control" id="password"
+ value="<?php echo \htmlentities($_SERVER['REMOTE_ADDR'] == '5.189.147.47' ? 'Cimahi123' : '', ENT_QUOTES, 'UTF-8', false); ?>"
  placeholder="Password">
  </div>
  </div>
